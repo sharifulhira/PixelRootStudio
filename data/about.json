@@ -1,0 +1,36 @@
+{
+  "name": "Md Shariful Haque Hira",
+  "shortName": "Shariful Hira",
+  "title": "Founder & Lead Photographer",
+  "tagline": "Where technical mastery meets artistic vision.",
+  "bio": [
+    "I'm Md Shariful Haque Hira — founder of Hira Photography and a multidisciplinary creative with over 15 years of professional experience. My journey blends photography, cinematography, graphic design, and digital strategy into a single, unified creative practice.",
+    "What sets my work apart is the intersection of technical precision and artistic instinct. As an electrical engineer by training and a visual artist by calling, I approach every shoot with both the analytical mindset to craft perfect lighting setups and the emotional intelligence to capture authentic, timeless moments.",
+    "From intimate weddings and high-fashion editorials to corporate brand campaigns and cinematic event coverage — I bring the same uncompromising commitment to quality to every project."
+  ],
+  "vision": "To redefine visual storytelling — creating photographs and cinematic work that don't just document moments, but elevate them into lasting art. Every frame is intentional. Every image tells a story worth preserving forever.",
+  "stats": [
+    { "value": "15+", "label": "Years Experience" },
+    { "value": "500+", "label": "Projects Completed" },
+    { "value": "200+", "label": "Happy Clients" },
+    { "value": "6", "label": "Active Businesses" }
+  ],
+  "skills": [
+    "Portrait Photography", "Fashion & Editorial", "Wedding Photography",
+    "Corporate Events", "Commercial Product", "Cinematic Video",
+    "Photoshop & Lightroom", "Premiere Pro", "Illustrator", "Figma"
+  ],
+  "experience": [
+    { "company": "Prince Engineering Ltd.", "role": "Director", "period": "2009 – Present" },
+    { "company": "Perfect Electron Ltd.", "role": "Director", "period": "2009 – Present" },
+    { "company": "Paradise Solutions", "role": "Co-Founder & Executive Officer", "period": "2023 – Present" },
+    { "company": "E-Edu Cares", "role": "Co-Founder & Executive Officer", "period": "2020 – Present" },
+    { "company": "Sun Holidays Ltd.", "role": "Digital Marketer", "period": "2022 – Present" }
+  ],
+  "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=85&auto=format&fit=crop&crop=faces",
+  "bannerImage": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=85&auto=format&fit=crop",
+  "contact": {
+    "phones": ["+880 1731-722808", "+880 1972-722808"],
+    "emails": ["sharifulhira@gmail.com", "sharifulhira@outlook.com"]
+  }
+}

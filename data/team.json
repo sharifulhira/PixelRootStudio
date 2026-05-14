@@ -1,0 +1,34 @@
+[
+  {
+    "id": "t1",
+    "name": "Md Shariful Haque Hira",
+    "role": "Founder & Lead Photographer",
+    "bio": "With 15+ years across fashion, weddings, corporate and commercial photography, Shariful leads every major project with precision, artistry and uncompromising quality.",
+    "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85&auto=format&fit=crop&crop=faces",
+    "isFounder": true
+  },
+  {
+    "id": "t2",
+    "name": "Arif Rahman",
+    "role": "Senior Photographer",
+    "bio": "Specialising in wedding and portrait photography, Arif brings a sensitive documentary-style eye that captures raw, authentic emotion in every frame.",
+    "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=85&auto=format&fit=crop&crop=faces",
+    "isFounder": false
+  },
+  {
+    "id": "t3",
+    "name": "Nadia Islam",
+    "role": "Cinematographer & Video Director",
+    "bio": "Nadia crafts cinematic event films and brand videos with a narrative-first approach and a signature warm, polished visual tone.",
+    "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=85&auto=format&fit=crop&crop=faces",
+    "isFounder": false
+  },
+  {
+    "id": "t4",
+    "name": "Tanvir Ahmed",
+    "role": "Post-Production Lead",
+    "bio": "Tanvir oversees all colour grading and retouching, ensuring every delivered image meets Hira Photography's meticulous quality benchmark.",
+    "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=85&auto=format&fit=crop&crop=faces",
+    "isFounder": false
+  }
+]
