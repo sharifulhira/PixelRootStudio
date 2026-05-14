@@ -1,0 +1,44 @@
+[
+  {
+    "id": "fashion",
+    "name": "Fashion",
+    "description": "Editorial & runway",
+    "href": "/portfolio?cat=fashion",
+    "image": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=85&auto=format&fit=crop&crop=faces"
+  },
+  {
+    "id": "weddings",
+    "name": "Weddings",
+    "description": "Timeless wedding moments",
+    "href": "/portfolio?cat=weddings",
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=85&auto=format&fit=crop&crop=faces"
+  },
+  {
+    "id": "corporate",
+    "name": "Corporate",
+    "description": "Professional brand imagery",
+    "href": "/portfolio?cat=corporate",
+    "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=85&auto=format&fit=crop"
+  },
+  {
+    "id": "events",
+    "name": "Events",
+    "description": "Live event coverage",
+    "href": "/portfolio?cat=events",
+    "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=85&auto=format&fit=crop"
+  },
+  {
+    "id": "product",
+    "name": "Product",
+    "description": "Commercial product shoots",
+    "href": "/portfolio?cat=product",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=85&auto=format&fit=crop"
+  },
+  {
+    "id": "model",
+    "name": "Model",
+    "description": "Portrait & model portfolio",
+    "href": "/portfolio?cat=model",
+    "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=85&auto=format&fit=crop&crop=faces"
+  }
+]

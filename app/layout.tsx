@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { FloatingNavigation } from "@/components/navigation/floating-navigation";
 import { siteSeo } from "@/seo/site-seo";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteSeo.siteUrl),
@@ -47,7 +60,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${playfair.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -57,9 +74,7 @@ export default function RootLayout({
       </head>
       <body>
         <div className="app-shell">
-          <main className="site-main">
-            <div className="container content-wrap">{children}</div>
-          </main>
+          <main className="site-main">{children}</main>
           <footer className="site-footer">
             <div className="container footer-row">
               <p>{siteSeo.siteName}</p>

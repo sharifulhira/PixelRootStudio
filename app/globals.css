@@ -50,6 +50,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family:
+    var(--font-inter),
     Inter,
     -apple-system,
     BlinkMacSystemFont,
@@ -58,9 +59,56 @@ body {
   line-height: 1.5;
 }
 
+.hero-headline {
+  font-family:
+    var(--font-playfair),
+    "Playfair Display",
+    Georgia,
+    "Times New Roman",
+    serif;
+}
+
 a {
   color: inherit;
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Masonry gallery */
+.gallery-masonry {
+  columns: 2;
+  column-gap: 10px;
+}
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 640px) {
+  .gallery-masonry {
+    columns: 3;
+    column-gap: 12px;
+  }
+  .gallery-item {
+    margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-masonry {
+    columns: 4;
+    column-gap: 14px;
+  }
+  .gallery-item {
+    margin-bottom: 14px;
+  }
+}
+
 
 .app-shell {
   min-height: 100dvh;
@@ -77,7 +125,6 @@ a {
 
 .site-main {
   flex: 1;
-  padding-block: 1.25rem 6.5rem;
 }
 
 .content-wrap {
@@ -105,10 +152,6 @@ a {
     padding-inline: 1.25rem;
   }
 
-  .site-main {
-    padding-block: 1.5rem 7rem;
-  }
-
   .content-wrap {
     padding: 1.5rem;
     border-radius: 1.25rem;
@@ -122,10 +165,6 @@ a {
 
   .footer-row {
     min-height: 4.5rem;
-  }
-
-  .site-main {
-    padding-block: 2rem 7.5rem;
   }
 
   .content-wrap {

@@ -1,0 +1,19 @@
+{
+  "badge": "Uncompromising Quality",
+  "headline": ["Moments That", "Live Forever"],
+  "subheadline": "Premium fashion, wedding, corporate & commercial photography with cinematic precision and modern luxury aesthetics.",
+  "cta": {
+    "primary": { "label": "View Portfolio", "href": "/portfolio" },
+    "secondary": { "label": "Book a Session", "href": "/contact" }
+  },
+  "stats": [
+    { "value": "8+", "label": "Years Experience" },
+    { "value": "500+", "label": "Sessions Completed" },
+    { "value": "200+", "label": "Happy Clients" }
+  ],
+  "services": ["Fashion", "Weddings", "Corporate Events", "Commercial", "Cinematic Video"],
+  "image": {
+    "src": "https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?w=1920&q=85&auto=format&fit=crop",
+    "alt": "Professional fashion photography by Hira Photography — Md Shariful Hira"
+  }
+}

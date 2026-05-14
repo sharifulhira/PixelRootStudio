@@ -1,0 +1,65 @@
+[
+  {
+    "id": "g1",
+    "category": "Fashion",
+    "alt": "Dramatic fashion editorial — bold lighting and strong silhouette",
+    "src": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85&auto=format&fit=crop",
+    "aspect": "portrait"
+  },
+  {
+    "id": "g2",
+    "category": "Weddings",
+    "alt": "Intimate wedding ceremony — soft golden hour light",
+    "src": "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=85&auto=format&fit=crop",
+    "aspect": "landscape"
+  },
+  {
+    "id": "g3",
+    "category": "Model",
+    "alt": "High-fashion model portrait — editorial style",
+    "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=85&auto=format&fit=crop&crop=faces",
+    "aspect": "portrait"
+  },
+  {
+    "id": "g4",
+    "category": "Events",
+    "alt": "Live event coverage — vibrant atmosphere and crowd energy",
+    "src": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=85&auto=format&fit=crop",
+    "aspect": "landscape"
+  },
+  {
+    "id": "g5",
+    "category": "Product",
+    "alt": "Luxury product photography — precision and detail",
+    "src": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=85&auto=format&fit=crop",
+    "aspect": "square"
+  },
+  {
+    "id": "g6",
+    "category": "Corporate",
+    "alt": "Professional corporate portrait — confident and approachable",
+    "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=85&auto=format&fit=crop&crop=faces",
+    "aspect": "portrait"
+  },
+  {
+    "id": "g7",
+    "category": "Fashion",
+    "alt": "Fashion editorial — cinematic colour and movement",
+    "src": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=85&auto=format&fit=crop",
+    "aspect": "landscape"
+  },
+  {
+    "id": "g8",
+    "category": "Commercial",
+    "alt": "Commercial interior — clean lines and premium atmosphere",
+    "src": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=85&auto=format&fit=crop",
+    "aspect": "square"
+  },
+  {
+    "id": "g9",
+    "category": "Model",
+    "alt": "Moody model portrait — strong directional light",
+    "src": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=85&auto=format&fit=crop&crop=faces",
+    "aspect": "portrait"
+  }
+]
