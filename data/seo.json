@@ -1,0 +1,20 @@
+{
+  "siteName": "Hira Photography",
+  "siteUrl": "https://example.com",
+  "title": "Hira Photography | Professional Photography Services",
+  "description": "Hira Photography offers professional photography for weddings, portraits, events, and commercial projects.",
+  "locale": "en_US",
+  "twitterHandle": "@hiraphotography",
+  "keywords": [
+    "photography",
+    "wedding photography",
+    "portrait photography",
+    "event photography",
+    "professional photographer"
+  ],
+  "organization": {
+    "name": "Hira Photography",
+    "email": "hello@example.com",
+    "telephone": "+8801000000000"
+  }
+}
