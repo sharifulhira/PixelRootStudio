@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import heroData from "@/data/hero.json";
 
+const easeOut = [0.22, 1, 0.36, 1] as const;
+
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 },
+    transition: { duration: 0.7, ease: easeOut, delay: i * 0.1 },
   }),
 };
 

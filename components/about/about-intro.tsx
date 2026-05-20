@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import aboutData from "@/data/about.json";
 
+const easeOut = [0.22, 1, 0.36, 1] as const;
+
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-50px" },
-  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
+  transition: { duration: 0.65, ease: easeOut, delay },
 });
 
 export function AboutIntro() {
@@ -31,7 +33,7 @@ export function AboutIntro() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          transition={{ duration: 0.7, ease: easeOut, delay: 0.15 }}
           className="relative z-10 mt-auto px-5 pb-10 sm:px-10 lg:px-16 max-w-[1200px] mx-auto w-full"
         >
           <span className="block text-[11px] font-semibold tracking-[0.22em] uppercase text-white/50 mb-3">
