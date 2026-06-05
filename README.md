@@ -1,4 +1,4 @@
-# Hira Photography
+# PixelRoot Studio
 
 ## SEO-first static homepage
 

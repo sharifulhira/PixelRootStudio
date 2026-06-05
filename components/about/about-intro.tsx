@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import aboutData from "@/data/about.json";
+// import aboutData from "@/data/about.json";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -13,14 +13,14 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.65, ease: easeOut, delay },
 });
 
-export function AboutIntro() {
+export function AboutIntro({ aboutData }: { aboutData: any }) {
   return (
     <>
       {/* ── Banner ── */}
       <section className="relative h-[58vh] min-h-[320px] max-h-[520px] flex flex-col overflow-hidden bg-black">
         <Image
           src={aboutData.bannerImage}
-          alt="Photographer at work — Hira Photography"
+          alt="Photographer at work — PixelRoot Studio"
           fill
           priority
           quality={90}
@@ -75,7 +75,7 @@ export function AboutIntro() {
 
               {/* Contact chips */}
               <div className="mt-5 flex flex-wrap gap-2">
-                {aboutData.contact.phones.map((p) => (
+                {aboutData.contact?.phones?.map((p: string) => (
                   <a
                     key={p}
                     href={`tel:${p.replace(/\s/g, "")}`}
@@ -87,7 +87,7 @@ export function AboutIntro() {
                     {p}
                   </a>
                 ))}
-                {aboutData.contact.emails.slice(0, 1).map((e) => (
+                {aboutData.contact?.emails?.slice(0, 1).map((e: string) => (
                   <a
                     key={e}
                     href={`mailto:${e}`}
@@ -117,7 +117,7 @@ export function AboutIntro() {
                 </p>
               </motion.div>
 
-              {aboutData.bio.map((para, i) => (
+              {aboutData.bio?.map((para: string, i: number) => (
                 <motion.p
                   key={i}
                   {...fadeUp(0.1 + i * 0.07)}
@@ -133,7 +133,7 @@ export function AboutIntro() {
                   Expertise
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {aboutData.skills.map((skill) => (
+                  {aboutData.skills?.map((skill: string) => (
                     <span
                       key={skill}
                       className="text-[11px] font-medium text-[color:var(--text)] border border-[color:var(--border)] rounded-full px-3 py-1.5 bg-[color:var(--bg)]"
@@ -150,7 +150,7 @@ export function AboutIntro() {
                   Professional Journey
                 </p>
                 <div className="flex flex-col gap-3">
-                  {aboutData.experience.map((exp) => (
+                  {aboutData.experience?.map((exp: any) => (
                     <div
                       key={exp.company}
                       className="flex items-start gap-3 py-3 border-b border-[color:var(--border)] last:border-0"
@@ -183,7 +183,7 @@ export function AboutIntro() {
             {...fadeUp(0)}
             className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[color:var(--border)] rounded-2xl overflow-hidden"
           >
-            {aboutData.stats.map((stat) => (
+            {aboutData.stats?.map((stat: any) => (
               <div
                 key={stat.label}
                 className="flex flex-col items-center justify-center gap-1 py-8 px-4 bg-[color:var(--surface)]"
@@ -221,7 +221,7 @@ export function AboutIntro() {
               &ldquo;{aboutData.vision}&rdquo;
             </blockquote>
             <p className="mt-6 text-white/40 text-sm font-medium">
-              — {aboutData.shortName}, Founder of Hira Photography
+              — {aboutData.shortName}, Founder of PixelRoot Studio
             </p>
           </motion.div>
         </div>

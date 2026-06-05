@@ -6,7 +6,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ---
 
-## Project: Hira Photography — Professional Portfolio Website
+## Project: PixelRoot Studio — Professional Portfolio Website
 
 **Founder:** Md Shariful Hira
 **Brand principle:** Uncompromising Quality
@@ -24,7 +24,7 @@ His visual style is defined as **Modern Urban**: clean compositions, sharp detai
 
 ### Project Purpose
 
-This is Hira Photography's **SEO-first marketing and portfolio website**. The site targets brands, businesses, and individuals seeking premium-quality visual storytelling.
+This is PixelRoot Studio's **SEO-first marketing and portfolio website**. The site targets brands, businesses, and individuals seeking premium-quality visual storytelling.
 
 ### Design Direction
 

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import galleryData from "@/data/gallery.json";
+// import galleryData from "@/data/gallery.json";
 
 const ASPECT: Record<string, string> = {
   portrait:  "aspect-[3/4]",
@@ -12,7 +12,7 @@ const ASPECT: Record<string, string> = {
   square:    "aspect-square",
 };
 
-export function GallerySection() {
+export function GallerySection({ galleryData }: { galleryData: any[] }) {
   const [active, setActive] = useState<number | null>(null);
 
   const close = useCallback(() => setActive(null), []);

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import heroData from "@/data/hero.json";
+// import heroData from "@/data/hero.json";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
@@ -16,13 +16,13 @@ const fadeUp = {
   }),
 };
 
-export function HeroSection() {
+export function HeroSection({ heroData }: { heroData: any }) {
   return (
     <section className="relative min-h-[100dvh] flex flex-col overflow-hidden bg-black">
       {/* Background photo */}
       <Image
-        src={heroData.image.src}
-        alt={heroData.image.alt}
+        src={heroData?.image?.src || ""}
+        alt={heroData?.image?.alt || "Hero Image"}
         fill
         priority
         quality={90}
@@ -37,7 +37,7 @@ export function HeroSection() {
       {/* Vertical services strip — desktop right edge */}
       <div className="absolute right-7 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-5 items-center">
         <div className="w-px h-14 bg-white/15" />
-        {heroData.services.map((service) => (
+        {heroData?.services?.map((service: string) => (
           <span
             key={service}
             className="text-[9px] font-semibold tracking-[0.22em] uppercase text-white/35 [writing-mode:vertical-rl] rotate-180"
@@ -61,7 +61,7 @@ export function HeroSection() {
         >
           <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.18em] uppercase text-white/60 border border-white/15 rounded-full px-4 py-1.5 backdrop-blur-sm bg-white/[0.04]">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
-            {heroData.badge}
+            {heroData?.badge}
           </span>
         </motion.div>
 
@@ -73,9 +73,9 @@ export function HeroSection() {
           animate="show"
           className="hero-headline text-[clamp(2.8rem,9vw,7.5rem)] font-bold text-white leading-[1.0] tracking-[-0.025em] mb-5"
         >
-          {heroData.headline[0]}
+          {heroData?.headline?.[0]}
           <br />
-          <em className="not-italic text-amber-400">{heroData.headline[1]}</em>
+          <em className="not-italic text-amber-400">{heroData?.headline?.[1]}</em>
         </motion.h1>
 
         {/* Sub-headline */}
@@ -86,7 +86,7 @@ export function HeroSection() {
           animate="show"
           className="text-[0.95rem] sm:text-[1rem] text-white/55 max-w-[30rem] leading-[1.8] mb-8"
         >
-          {heroData.subheadline}
+          {heroData?.subheadline}
         </motion.p>
 
         {/* CTA buttons */}
@@ -98,10 +98,10 @@ export function HeroSection() {
           className="flex flex-wrap gap-3 mb-10 sm:mb-12"
         >
           <Link
-            href={heroData.cta.primary.href}
+            href={heroData?.cta?.primary?.href || "#"}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-yellow-500 text-black text-sm font-semibold tracking-wide hover:bg-yellow-600 text-black transition-all duration-300"
           >
-            {heroData.cta.primary.label}
+            {heroData?.cta?.primary?.label || "View Portfolio"}
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path
                 d="M3 8h10M9 4l4 4-4 4"
@@ -113,10 +113,10 @@ export function HeroSection() {
             </svg>
           </Link>
           <Link
-            href={heroData.cta.secondary.href}
+            href={heroData?.cta?.secondary?.href || "#"}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/30 text-white text-sm font-medium tracking-wide hover:border-white/60 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
           >
-            {heroData.cta.secondary.label}
+            {heroData?.cta?.secondary?.label || "Book a Session"}
           </Link>
         </motion.div>
 
@@ -128,7 +128,7 @@ export function HeroSection() {
           animate="show"
         >
           <div className="grid grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md w-full max-w-sm sm:max-w-xs">
-            {heroData.stats.map((stat) => (
+            {heroData?.stats?.map((stat: any) => (
               <div
                 key={stat.label}
                 className="flex flex-col items-center gap-1 py-4 px-2 sm:py-5 sm:px-4"

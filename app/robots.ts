@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { siteSeo } from "@/seo/site-seo";
+import { getSiteSeo } from "@/seo/site-seo";
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const siteSeo = await getSiteSeo();
   return {
     rules: {
       userAgent: "*",

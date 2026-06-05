@@ -1,10 +1,10 @@
 {
-  "siteName": "Hira Photography",
+  "siteName": "PixelRoot Studio",
   "siteUrl": "https://example.com",
-  "title": "Hira Photography | Professional Photography Services",
-  "description": "Hira Photography offers professional photography for weddings, portraits, events, and commercial projects.",
+  "title": "PixelRoot Studio | Professional Photography Services",
+  "description": "PixelRoot Studio offers professional photography for weddings, portraits, events, and commercial projects.",
   "locale": "en_US",
-  "twitterHandle": "@hiraphotography",
+  "twitterHandle": "@pixelrootstudio",
   "keywords": [
     "photography",
     "wedding photography",
@@ -13,7 +13,7 @@
     "professional photographer"
   ],
   "organization": {
-    "name": "Hira Photography",
+    "name": "PixelRoot Studio",
     "email": "hello@example.com",
     "telephone": "+8801000000000"
   }

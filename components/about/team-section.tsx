@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import teamData from "@/data/team.json";
+// import teamData from "@/data/team.json";
 
-export function TeamSection() {
+export function TeamSection({ teamData }: { teamData: any[] }) {
   return (
     <section className="py-16 sm:py-20 bg-[color:var(--surface)] border-b border-[color:var(--border)]">
       <div className="px-5 sm:px-10 lg:px-16 max-w-[1200px] mx-auto">

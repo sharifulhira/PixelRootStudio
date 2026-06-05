@@ -1,4 +1,6 @@
 import seoJson from "@/data/seo.json";
+import { client } from "@/sanity/lib/client";
+import { seoQuery } from "@/sanity/lib/queries";
 
 type SeoData = {
   siteName: string;
@@ -15,9 +17,13 @@ type SeoData = {
   };
 };
 
-export const siteSeo: SeoData = seoJson;
+export async function getSiteSeo(): Promise<SeoData> {
+  const sanitySeo = await client.fetch(seoQuery).catch(() => null);
+  return sanitySeo || seoJson;
+}
 
-export function getHomeJsonLd() {
+export async function getHomeJsonLd() {
+  const siteSeo = await getSiteSeo();
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",

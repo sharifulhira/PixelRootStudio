@@ -7,14 +7,13 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import categoriesData from "@/data/categories.json";
+// import categoriesData from "@/data/categories.json";
 
 import "swiper/swiper.css";
 
 // 3× ensures loop has enough originals for the largest slidesPerView breakpoint (5.4 → needs ≥12)
-const loopSlides = [...categoriesData, ...categoriesData, ...categoriesData];
-
-export function CategoriesSlider() {
+export function CategoriesSlider({ categoriesData }: { categoriesData: any[] }) {
+  const loopSlides = [...categoriesData, ...categoriesData, ...categoriesData];
   const swiperRef = useRef<SwiperClass | null>(null);
 
   return (
@@ -99,7 +98,7 @@ export function CategoriesSlider() {
           {loopSlides.map((cat, i) => (
             <SwiperSlide key={`${cat.id}-${i}`}>
               <Link
-                href={cat.href}
+                href={`/portfolio?cat=${cat.slug || cat.href?.replace('/', '')}`}
                 className="relative block rounded-2xl overflow-hidden group"
                 aria-label={`View ${cat.name} portfolio`}
               >
