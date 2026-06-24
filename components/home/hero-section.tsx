@@ -35,7 +35,14 @@ type HeroData = {
   services?: string[];
   image?: { src: string; alt: string; blurDataURL?: string };
   videoUrl?: string;
+  backgroundVideo?: string;
 };
+
+function isDirectVideoUrl(url?: string): boolean {
+  if (!url) return false;
+  const videoExtensions = [".mp4", ".webm", ".ogg", ".mov"];
+  return videoExtensions.some((ext) => url.toLowerCase().includes(ext));
+}
 
 export function HeroSection({ heroData }: { heroData: HeroData }) {
   const containerRef = useRef<HTMLElement>(null);
@@ -57,7 +64,7 @@ export function HeroSection({ heroData }: { heroData: HeroData }) {
         style={{ y: backgroundY }}
         className="absolute inset-0 scale-110"
       >
-        {heroData?.videoUrl ? (
+        {heroData?.backgroundVideo && isDirectVideoUrl(heroData.backgroundVideo) ? (
           <video
             autoPlay
             muted
@@ -65,7 +72,7 @@ export function HeroSection({ heroData }: { heroData: HeroData }) {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src={heroData.videoUrl} type="video/mp4" />
+            <source src={heroData.backgroundVideo} type="video/mp4" />
           </video>
         ) : heroData?.image?.src ? (
           <Image

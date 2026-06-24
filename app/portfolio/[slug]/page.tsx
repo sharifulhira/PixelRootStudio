@@ -6,46 +6,43 @@ import { ProjectHero } from "@/components/portfolio/project-hero";
 import { ProjectBody } from "@/components/portfolio/project-body";
 import { ProjectGallery } from "@/components/portfolio/project-gallery";
 import { ProjectTeam } from "@/components/portfolio/project-team";
-import projectsData from "@/data/projects.json";
-import teamData from "@/data/team.json";
+import { getProjectBySlug, getProjectSlugs } from "@/lib/db/queries";
 
-type Project = (typeof projectsData)[number];
-
-function getProject(slug: string): Project | undefined {
-  return projectsData.find((p) => p.slug === slug);
-}
+export const revalidate = 3600;
 
 export function generateStaticParams() {
-  return projectsData.map((project) => ({ slug: project.slug }));
+  const slugs = getProjectSlugs();
+  return slugs.map((item) => ({ slug: item.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  return params.then(({ slug }) => {
-    const project = getProject(slug);
-    if (!project) return {};
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+  if (!project) return {};
 
-    const siteSeo = getSiteSeo();
+  const siteSeo = getSiteSeo();
+  const title = project.seo?.metaTitle || `${project.title} | ${siteSeo.siteName}`;
+  const description = project.seo?.metaDescription || project.summary || "";
 
-    return {
-      title: project.seo?.metaTitle || `${project.title} | ${siteSeo.siteName}`,
-      description: project.seo?.metaDescription || project.summary,
-      openGraph: {
-        title: project.seo?.metaTitle || project.title,
-        description: project.seo?.metaDescription || project.summary,
-        images: project.coverImage?.src ? [project.coverImage.src] : undefined,
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: project.seo?.metaTitle || project.title,
-        description: project.seo?.metaDescription || project.summary,
-        images: project.coverImage?.src ? [project.coverImage.src] : undefined,
-      },
-    };
-  });
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: project.coverImage?.src ? [project.coverImage.src] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: project.coverImage?.src ? [project.coverImage.src] : undefined,
+    },
+  };
 }
 
 export default async function ProjectPage({
@@ -54,16 +51,13 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     notFound();
   }
 
   const siteSeo = getSiteSeo();
-  const team = (project.team ?? [])
-    .map((id) => teamData.find((member) => member.id === id))
-    .filter((member): member is (typeof teamData)[number] => Boolean(member));
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -90,7 +84,7 @@ export default async function ProjectPage({
       />
       <ProjectBody body={project.body} />
       <ProjectGallery gallery={project.gallery} />
-      <ProjectTeam team={team} />
+      <ProjectTeam team={project.team} />
     </>
   );
 }

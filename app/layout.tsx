@@ -17,51 +17,55 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const siteSeo = getSiteSeo();
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteSeo.siteUrl),
-  title: siteSeo.title,
-  description: siteSeo.description,
-  keywords: siteSeo.keywords,
-  applicationName: siteSeo.siteName,
-  alternates: {
-    canonical: "/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  const siteSeo = getSiteSeo();
+  
+  return {
+    metadataBase: new URL(siteSeo.siteUrl),
+    title: siteSeo.title,
+    description: siteSeo.description,
+    keywords: siteSeo.keywords,
+    applicationName: siteSeo.siteName,
+    alternates: {
+      canonical: "/",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
-  },
-  openGraph: {
-    type: "website",
-    locale: siteSeo.locale,
-    url: siteSeo.siteUrl,
-    title: siteSeo.title,
-    description: siteSeo.description,
-    siteName: siteSeo.siteName,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteSeo.title,
-    description: siteSeo.description,
-    creator: siteSeo.twitterHandle,
-    site: siteSeo.twitterHandle,
-  },
-};
+    openGraph: {
+      type: "website",
+      locale: siteSeo.locale,
+      url: siteSeo.siteUrl,
+      title: siteSeo.title,
+      description: siteSeo.description,
+      siteName: siteSeo.siteName,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteSeo.title,
+      description: siteSeo.description,
+      creator: siteSeo.twitterHandle,
+      site: siteSeo.twitterHandle,
+    },
+  };
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteSeo = getSiteSeo();
+  
   return (
     <html
       lang="en"

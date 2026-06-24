@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ContactHero } from "@/components/contact/contact-hero";
 import { ContactContent } from "@/components/contact/contact-content";
-import aboutData from "@/data/about.json";
+import { getAbout } from "@/lib/db/queries";
 
 export const metadata: Metadata = {
   title: "Contact — PixelRoot Studio | Book a Session",
@@ -10,11 +10,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
+export const revalidate = 3600;
+
 export default function ContactPage() {
+  const aboutData = getAbout();
+
   return (
     <>
       <ContactHero />
-      <ContactContent contact={aboutData.contact} />
+      <ContactContent contact={aboutData?.contact || { phones: [], emails: [] }} />
     </>
   );
 }

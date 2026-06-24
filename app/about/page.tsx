@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { AboutIntro } from "@/components/about/about-intro";
 import { TeamSection } from "@/components/about/team-section";
 import { ServicesCta } from "@/components/about/services-cta";
-import aboutData from "@/data/about.json";
-import teamData from "@/data/team.json";
+import { getAbout, getTeamMembers } from "@/lib/db/queries";
 
 export const metadata: Metadata = {
   title: "About — PixelRoot Studio | Md Shariful Haque Hira",
@@ -12,7 +11,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
+export const revalidate = 3600;
+
 export default function AboutPage() {
+  const aboutData = getAbout();
+  const teamData = getTeamMembers();
+
+  if (!aboutData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <AboutIntro aboutData={aboutData} />

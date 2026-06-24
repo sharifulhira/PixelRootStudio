@@ -117,6 +117,7 @@ export function CategoriesSlider({ categoriesData }: { categoriesData: any[] }) 
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07]"
                     sizes="(max-width: 480px) 55vw, (max-width: 900px) 38vw, (max-width: 1200px) 28vw, 22vw"
+                    priority={i < 4}
                   />
 
                   {/* Cinematic gradient */}

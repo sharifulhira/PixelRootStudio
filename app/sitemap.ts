@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 import { getSiteSeo } from "@/seo/site-seo";
-import projectsData from "@/data/projects.json";
+import { getProjectSlugs } from "@/lib/db/queries";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteSeo = getSiteSeo();
+  const slugs = getProjectSlugs();
 
-  const projects: MetadataRoute.Sitemap = projectsData.map((project) => ({
-    url: `${siteSeo.siteUrl}/portfolio/${project.slug}`,
-    lastModified: new Date(project.date),
+  const projects: MetadataRoute.Sitemap = slugs.map((item) => ({
+    url: `${siteSeo.siteUrl}/portfolio/${item.slug}`,
+    lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.8,
   }));

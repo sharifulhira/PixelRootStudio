@@ -1,4 +1,4 @@
-import seoJson from "@/data/seo.json";
+import { getSiteSeo as getSiteSeoFromDb } from "@/lib/db/queries";
 
 type SeoData = {
   siteName: string;
@@ -23,7 +23,7 @@ type SeoData = {
 };
 
 export function getSiteSeo(): SeoData {
-  return seoJson;
+  return getSiteSeoFromDb();
 }
 
 export function getHomeJsonLd() {

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { PortfolioGrid } from "@/components/portfolio/portfolio-grid";
-import projectsData from "@/data/projects.json";
-import categoriesData from "@/data/categories.json";
+import { getProjects, getPortfolioCategories } from "@/lib/db/queries";
 
 export const metadata: Metadata = {
   title: "Portfolio — PixelRoot Studio",
@@ -10,11 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/portfolio" },
 };
 
-const portfolioCategories = categoriesData.map((cat) => ({
-  id: cat.id,
-  name: cat.name,
-  slug: cat.id,
-}));
+export const revalidate = 3600;
 
 export default async function PortfolioPage({
   searchParams,
@@ -22,6 +17,8 @@ export default async function PortfolioPage({
   searchParams: Promise<{ cat?: string }>;
 }) {
   const params = await searchParams;
+  const projects = getProjects();
+  const categories = getPortfolioCategories();
 
   return (
     <section className="py-14 sm:py-20 bg-[color:var(--bg)]">
@@ -38,11 +35,22 @@ export default async function PortfolioPage({
           </p>
         </div>
 
-        <PortfolioGrid
-          projects={projectsData}
-          categories={portfolioCategories}
-          initialFilter={params?.cat || "all"}
-        />
+        {projects.length === 0 ? (
+          <div className="text-center py-16 sm:py-24 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)]">
+            <p className="hero-headline text-xl sm:text-2xl font-bold text-[color:var(--text)] mb-2">
+              Projects Coming Soon
+            </p>
+            <p className="text-sm text-[color:var(--muted)] max-w-md mx-auto leading-relaxed px-4">
+              Portfolio projects are being prepared. Check back shortly or contact us to discuss your project.
+            </p>
+          </div>
+        ) : (
+          <PortfolioGrid
+            projects={projects}
+            categories={categories}
+            initialFilter={params?.cat || "all"}
+          />
+        )}
       </div>
     </section>
   );
