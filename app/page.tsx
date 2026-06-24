@@ -5,7 +5,8 @@ import { CategoriesSlider } from "@/components/home/categories-slider";
 import { VideoHighlight } from "@/components/home/video-highlight";
 import { GallerySection } from "@/components/home/gallery-section";
 import { GearShowcase } from "@/components/home/gear-showcase";
-import { getHero, getFeaturedCategories, getFeaturedGalleryItems, getGearSettings, getGearItems } from "@/lib/db/queries";
+import { SocialSection } from "@/components/home/social-section";
+import { getHero, getFeaturedCategories, getFeaturedGalleryItems, getGearSettings, getGearItems, getSocialSection } from "@/lib/db/queries";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600; // Revalidate every hour
@@ -16,6 +17,7 @@ export default function Home() {
   const galleryData = getFeaturedGalleryItems();
   const gearSettings = getGearSettings();
   const gearItems = getGearItems();
+  const socialData = getSocialSection();
   const homeJsonLd = getHomeJsonLd();
 
   if (!heroData) {
@@ -37,6 +39,13 @@ export default function Home() {
         subtitle={gearSettings.subtitle}
         gear={gearItems}
       />
+      {socialData && (
+        <SocialSection
+          title={socialData.title}
+          subtitle={socialData.subtitle}
+          links={socialData.links}
+        />
+      )}
       <JsonLd data={homeJsonLd} />
     </>
   );

@@ -45,6 +45,8 @@ export async function PUT(request: Request) {
         socialInstagram: data.socialInstagram,
         socialYoutube: data.socialYoutube,
         socialLinkedin: data.socialLinkedin,
+        socialTitle: data.socialTitle,
+        socialSubtitle: data.socialSubtitle,
         ogImage: data.ogImage,
         updatedAt: new Date(),
       })

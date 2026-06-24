@@ -36,6 +36,8 @@ export const siteSettings = sqliteTable("site_settings", {
   socialInstagram: text("social_instagram"),
   socialYoutube: text("social_youtube"),
   socialLinkedin: text("social_linkedin"),
+  socialTitle: text("social_title"),
+  socialSubtitle: text("social_subtitle"),
   
   ogImage: text("og_image"),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),

@@ -18,6 +18,8 @@ type SeoData = {
   socialInstagram: string;
   socialYoutube: string;
   socialLinkedin: string;
+  socialTitle: string;
+  socialSubtitle: string;
 };
 
 export default function AdminSeoPage() {
@@ -195,7 +197,32 @@ export default function AdminSeoPage() {
 
         {/* Social Links */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-          <h2 className="text-sm font-semibold text-white mb-4">Social Links</h2>
+          <h2 className="text-sm font-semibold text-white mb-4">Social Media Section</h2>
+          <p className="text-xs text-white/40 mb-4">
+            Configure the social section on the homepage. Add at least one link to display the section.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-xs text-white/40 mb-1">Section Title</label>
+              <input
+                type="text"
+                value={data.socialTitle || ""}
+                onChange={(e) => setData({ ...data, socialTitle: e.target.value })}
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                placeholder="Follow Our Journey"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-white/40 mb-1">Section Subtitle</label>
+              <input
+                type="text"
+                value={data.socialSubtitle || ""}
+                onChange={(e) => setData({ ...data, socialSubtitle: e.target.value })}
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                placeholder="Stay connected for behind-the-scenes..."
+              />
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-white/40 mb-1">Facebook</label>
@@ -235,6 +262,16 @@ export default function AdminSeoPage() {
                 onChange={(e) => setData({ ...data, socialLinkedin: e.target.value })}
                 className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
                 placeholder="https://linkedin.com/..."
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-white/40 mb-1">X (Twitter) Handle</label>
+              <input
+                type="text"
+                value={data.twitterHandle || ""}
+                onChange={(e) => setData({ ...data, twitterHandle: e.target.value })}
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                placeholder="@pixelrootstudio"
               />
             </div>
           </div>

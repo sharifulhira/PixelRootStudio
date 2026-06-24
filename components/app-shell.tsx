@@ -1,23 +1,25 @@
 "use client";
 
 import { FloatingNavigation } from "@/components/navigation/floating-navigation";
+import { usePathname } from "next/navigation";
+
+const HIDDEN_PATHS = ["/admin", "/studio"];
 
 export function AppShell({
   children,
-  siteName,
+  footer,
 }: {
   children: React.ReactNode;
-  siteName: string;
+  footer: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const hideChrome = HIDDEN_PATHS.some((path) => pathname.startsWith(path));
+
   return (
     <div className="app-shell">
       <main className="site-main">{children}</main>
-      <footer className="site-footer">
-        <div className="container footer-row">
-          <p>{siteName}</p>
-        </div>
-      </footer>
-      <FloatingNavigation />
+      {!hideChrome && footer}
+      {!hideChrome && <FloatingNavigation />}
     </div>
   );
 }

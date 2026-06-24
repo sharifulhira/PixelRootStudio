@@ -142,18 +142,6 @@ a {
   padding: 1rem;
 }
 
-.site-footer {
-  border-top: 1px solid var(--border);
-}
-
-.footer-row {
-  min-height: 3.5rem;
-  display: flex;
-  align-items: center;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
 /* Phone-first responsive upgrades */
 @media (min-width: 640px) {
   .container {
@@ -169,10 +157,6 @@ a {
 @media (min-width: 1024px) {
   .container {
     padding-inline: 1.5rem;
-  }
-
-  .footer-row {
-    min-height: 4.5rem;
   }
 
   .content-wrap {

@@ -356,6 +356,83 @@ export function getGearItems() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Social Section
+// ─────────────────────────────────────────────────────────────
+function extractHandle(url: string, platform: string): string | undefined {
+  try {
+    const parsed = new URL(url);
+    const path = parsed.pathname.replace(/\/$/, "");
+    const segments = path.split("/").filter(Boolean);
+    if (segments.length === 0) return undefined;
+    const last = segments[segments.length - 1];
+    if (platform === "youtube" && last.startsWith("@")) return last;
+    if (platform === "twitter" || platform === "instagram") return `@${last.replace("@", "")}`;
+    return last;
+  } catch {
+    return undefined;
+  }
+}
+
+export function getSocialSection() {
+  const settings = getSiteSettings();
+  if (!settings) return null;
+
+  const links: { id: string; label: string; url: string; handle?: string }[] = [];
+
+  if (settings.socialInstagram) {
+    links.push({
+      id: "instagram",
+      label: "Instagram",
+      url: settings.socialInstagram,
+      handle: extractHandle(settings.socialInstagram, "instagram"),
+    });
+  }
+  if (settings.socialFacebook) {
+    links.push({
+      id: "facebook",
+      label: "Facebook",
+      url: settings.socialFacebook,
+      handle: extractHandle(settings.socialFacebook, "facebook"),
+    });
+  }
+  if (settings.socialYoutube) {
+    links.push({
+      id: "youtube",
+      label: "YouTube",
+      url: settings.socialYoutube,
+      handle: extractHandle(settings.socialYoutube, "youtube"),
+    });
+  }
+  if (settings.socialLinkedin) {
+    links.push({
+      id: "linkedin",
+      label: "LinkedIn",
+      url: settings.socialLinkedin,
+      handle: extractHandle(settings.socialLinkedin, "linkedin"),
+    });
+  }
+  if (settings.twitterHandle) {
+    const handle = settings.twitterHandle.replace(/^@/, "");
+    links.push({
+      id: "twitter",
+      label: "X",
+      url: `https://x.com/${handle}`,
+      handle: `@${handle}`,
+    });
+  }
+
+  if (links.length === 0) return null;
+
+  return {
+    title: settings.socialTitle || "Follow Our Journey",
+    subtitle:
+      settings.socialSubtitle ||
+      "Stay connected for behind-the-scenes content, latest work, and creative inspiration.",
+    links,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────
 // SEO helpers
 // ─────────────────────────────────────────────────────────────
 export function getSiteSeo() {
