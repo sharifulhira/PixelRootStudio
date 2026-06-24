@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
+import { ChromeGate } from "@/components/chrome-gate";
 import { SiteFooter } from "@/components/site-footer";
 import { getSiteSeo } from "@/seo/site-seo";
 
@@ -83,7 +84,12 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem("theme");var p=window.matchMedia("(prefers-color-scheme: dark)").matches;var n=(t==="light"||t==="dark")?t:(p?"dark":"light");document.documentElement.setAttribute("data-theme",n);}catch(e){}})();`,
           }}
         />
-        <AppShell footer={<SiteFooter />}>{children}</AppShell>
+        <AppShell>
+          <main className="site-main">{children}</main>
+          <ChromeGate>
+            <SiteFooter />
+          </ChromeGate>
+        </AppShell>
       </body>
     </html>
   );

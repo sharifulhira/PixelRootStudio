@@ -61,7 +61,7 @@ export function SiteFooter() {
       {/* Subtle top accent */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
 
-      <div className="px-5 sm:px-10 lg:px-16 max-w-[1400px] mx-auto pt-12 sm:pt-16 pb-8">
+      <div className="px-5 sm:px-10 lg:px-16 max-w-[1400px] mx-auto pt-12 sm:pt-16 pb-[calc(5.5rem+env(safe-area-inset-bottom,0px)+2rem)] sm:pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-4">
