@@ -13,11 +13,12 @@ const ASPECT: Record<string, string> = {
 };
 
 export function GallerySection({ galleryData }: { galleryData: any[] }) {
+  const items = galleryData ?? [];
   const [active, setActive] = useState<number | null>(null);
 
   const close = useCallback(() => setActive(null), []);
-  const prev  = useCallback(() => setActive(i => i === null ? null : (i - 1 + galleryData.length) % galleryData.length), []);
-  const next  = useCallback(() => setActive(i => i === null ? null : (i + 1) % galleryData.length), []);
+  const prev  = useCallback(() => setActive(i => i === null ? null : (i - 1 + items.length) % items.length), [items.length]);
+  const next  = useCallback(() => setActive(i => i === null ? null : (i + 1) % items.length), [items.length]);
 
   /* Keyboard navigation */
   useEffect(() => {
@@ -37,7 +38,9 @@ export function GallerySection({ galleryData }: { galleryData: any[] }) {
     return () => { document.body.style.overflow = ""; };
   }, [active]);
 
-  const item = active !== null ? galleryData[active] : null;
+  const item = active !== null ? items[active] : null;
+
+  if (!items.length) return null;
 
   return (
     <section className="py-14 sm:py-20 bg-[color:var(--bg)]">
@@ -82,7 +85,7 @@ export function GallerySection({ galleryData }: { galleryData: any[] }) {
           transition={{ duration: 0.5 }}
           className="gallery-masonry"
         >
-          {galleryData.map((g, i) => (
+          {items.map((g, i) => (
             <motion.div
               key={g.id}
               initial={{ opacity: 0, y: 20 }}
@@ -167,7 +170,7 @@ export function GallerySection({ galleryData }: { galleryData: any[] }) {
 
             {/* ── Counter ── */}
             <div className="absolute top-4 left-1/2 -translate-x-1/2 text-[11px] font-semibold tracking-[0.18em] uppercase text-white/35 select-none">
-              {active + 1} &nbsp;/&nbsp; {galleryData.length}
+              {active + 1} &nbsp;/&nbsp; {items.length}
             </div>
 
             {/* ── Prev arrow ── */}
@@ -200,7 +203,7 @@ export function GallerySection({ galleryData }: { galleryData: any[] }) {
               exit={{ opacity: 0, scale: 0.93 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="flex flex-col items-center px-16 sm:px-20 max-w-full"
+              className="flex flex-col items-center px-12 sm:px-16 md:px-20 max-w-full"
             >
               <Image
                 src={item.src.replace("w=800", "w=1600").replace("q=85", "q=90")}
@@ -232,7 +235,7 @@ export function GallerySection({ galleryData }: { galleryData: any[] }) {
 
             {/* ── Dot indicators ── */}
             <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5" aria-hidden="true">
-              {galleryData.map((_, idx) => (
+              {items.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={(e) => { e.stopPropagation(); setActive(idx); }}

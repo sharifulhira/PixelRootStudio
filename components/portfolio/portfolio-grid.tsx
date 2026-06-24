@@ -43,10 +43,10 @@ export function PortfolioGrid({
   return (
     <>
       {/* ── Filter pills ── */}
-      <div className="flex flex-wrap gap-2 mb-10 sm:mb-12">
+      <div className="flex gap-2 mb-10 sm:mb-12 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1">
         <button
           onClick={() => setActiveFilter("all")}
-          className={`text-[11px] font-semibold tracking-[0.14em] uppercase rounded-full px-4 py-2 border transition-all duration-200 ${
+          className={`shrink-0 text-[11px] font-semibold tracking-[0.14em] uppercase rounded-full px-4 py-2 border transition-all duration-200 ${
             activeFilter === "all"
               ? "bg-[color:var(--primary)] text-white border-[color:var(--primary)]"
               : "border-[color:var(--border)] text-[color:var(--muted)] hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]"
@@ -58,7 +58,7 @@ export function PortfolioGrid({
           <button
             key={cat.id}
             onClick={() => setActiveFilter(cat.slug)}
-            className={`text-[11px] font-semibold tracking-[0.14em] uppercase rounded-full px-4 py-2 border transition-all duration-200 ${
+            className={`shrink-0 text-[11px] font-semibold tracking-[0.14em] uppercase rounded-full px-4 py-2 border transition-all duration-200 ${
               activeFilter === cat.slug
                 ? "bg-[color:var(--primary)] text-white border-[color:var(--primary)]"
                 : "border-[color:var(--border)] text-[color:var(--muted)] hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]"

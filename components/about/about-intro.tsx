@@ -153,18 +153,20 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
                   {aboutData.experience?.map((exp: any) => (
                     <div
                       key={exp.company}
-                      className="flex items-start gap-3 py-3 border-b border-[color:var(--border)] last:border-0"
+                      className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3 py-3 border-b border-[color:var(--border)] last:border-0"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-[color:var(--text)] leading-tight">
-                          {exp.role}
-                        </p>
-                        <p className="text-[12px] text-[color:var(--muted)] mt-0.5">
-                          {exp.company}
-                        </p>
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-[color:var(--text)] leading-tight">
+                            {exp.role}
+                          </p>
+                          <p className="text-[12px] text-[color:var(--muted)] mt-0.5">
+                            {exp.company}
+                          </p>
+                        </div>
                       </div>
-                      <span className="text-[11px] text-[color:var(--muted)] shrink-0 pt-0.5">
+                      <span className="text-[11px] text-[color:var(--muted)] shrink-0 pl-4 sm:pl-0 sm:pt-0.5">
                         {exp.period}
                       </span>
                     </div>

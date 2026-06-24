@@ -58,7 +58,7 @@ export function ProjectHero({ title, coverImage, category, date, client: clientN
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: easeOut, delay: 0.16 }}
-          className="flex items-center gap-4 text-[11px] font-semibold tracking-[0.14em] uppercase text-white/45"
+          className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-4 text-[10px] sm:text-[11px] font-semibold tracking-[0.12em] sm:tracking-[0.14em] uppercase text-white/45"
         >
           {date && (
             <span>
@@ -70,8 +70,8 @@ export function ProjectHero({ title, coverImage, category, date, client: clientN
           )}
           {clientName && (
             <>
-              <span className="w-px h-3.5 bg-white/20" />
-              <span>Client: {clientName}</span>
+              <span className="hidden sm:block w-px h-3.5 bg-white/20" />
+              <span className="break-words">Client: {clientName}</span>
             </>
           )}
         </motion.div>

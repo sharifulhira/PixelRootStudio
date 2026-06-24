@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
+const HIDDEN_PATHS = ["/admin", "/studio"];
+
 type NavItem = {
   href: string;
   label: string;
@@ -94,9 +96,14 @@ function isNavItemActive(pathname: string, href: string): boolean {
 export function FloatingNavigation() {
   const pathname = usePathname();
 
+  // Hide on admin and studio pages
+  if (HIDDEN_PATHS.some((path) => pathname.startsWith(path))) {
+    return null;
+  }
+
   return (
     <nav
-      className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 sm:bottom-6"
+      className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 sm:bottom-6 pb-[env(safe-area-inset-bottom,0px)]"
       aria-label="Primary navigation"
     >
       <motion.ul

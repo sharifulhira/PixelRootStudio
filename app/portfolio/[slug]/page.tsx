@@ -1,53 +1,51 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { client } from "@/sanity/lib/client";
-import { projectDetailQuery, projectSlugsQuery } from "@/sanity/lib/queries";
 import { getSiteSeo } from "@/seo/site-seo";
 import { JsonLd } from "@/seo/json-ld";
 import { ProjectHero } from "@/components/portfolio/project-hero";
 import { ProjectBody } from "@/components/portfolio/project-body";
 import { ProjectGallery } from "@/components/portfolio/project-gallery";
 import { ProjectTeam } from "@/components/portfolio/project-team";
+import projectsData from "@/data/projects.json";
+import teamData from "@/data/team.json";
 
-export const revalidate = false;
-export const fetchCache = "force-cache";
+type Project = (typeof projectsData)[number];
 
-// Generate static routes for all projects
-export async function generateStaticParams() {
-  const slugs = await client.fetch(projectSlugsQuery).catch(() => []);
-  return slugs.map((item: { slug: string }) => ({
-    slug: item.slug,
-  }));
+function getProject(slug: string): Project | undefined {
+  return projectsData.find((p) => p.slug === slug);
 }
 
-// Generate dynamic SEO metadata
-export async function generateMetadata({
+export function generateStaticParams() {
+  return projectsData.map((project) => ({ slug: project.slug }));
+}
+
+export function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const project = await client.fetch(projectDetailQuery, { slug }).catch(() => null);
+  return params.then(({ slug }) => {
+    const project = getProject(slug);
+    if (!project) return {};
 
-  if (!project) return {};
+    const siteSeo = getSiteSeo();
 
-  const siteSeo = await getSiteSeo();
-
-  return {
-    title: project.seo?.metaTitle || `${project.title} | ${siteSeo.siteName}`,
-    description: project.seo?.metaDescription || project.summary,
-    openGraph: {
-      title: project.seo?.metaTitle || project.title,
+    return {
+      title: project.seo?.metaTitle || `${project.title} | ${siteSeo.siteName}`,
       description: project.seo?.metaDescription || project.summary,
-      images: project.coverImage?.src ? [project.coverImage.src] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: project.seo?.metaTitle || project.title,
-      description: project.seo?.metaDescription || project.summary,
-      images: project.coverImage?.src ? [project.coverImage.src] : undefined,
-    },
-  };
+      openGraph: {
+        title: project.seo?.metaTitle || project.title,
+        description: project.seo?.metaDescription || project.summary,
+        images: project.coverImage?.src ? [project.coverImage.src] : undefined,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: project.seo?.metaTitle || project.title,
+        description: project.seo?.metaDescription || project.summary,
+        images: project.coverImage?.src ? [project.coverImage.src] : undefined,
+      },
+    };
+  });
 }
 
 export default async function ProjectPage({
@@ -56,15 +54,17 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = await client.fetch(projectDetailQuery, { slug }).catch(() => null);
+  const project = getProject(slug);
 
   if (!project) {
     notFound();
   }
 
-  const siteSeo = await getSiteSeo();
+  const siteSeo = getSiteSeo();
+  const team = (project.team ?? [])
+    .map((id) => teamData.find((member) => member.id === id))
+    .filter((member): member is (typeof teamData)[number] => Boolean(member));
 
-  // Structured Data for CreativeWork
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -90,7 +90,7 @@ export default async function ProjectPage({
       />
       <ProjectBody body={project.body} />
       <ProjectGallery gallery={project.gallery} />
-      <ProjectTeam team={project.team} />
+      <ProjectTeam team={team} />
     </>
   );
 }

@@ -13,8 +13,11 @@ import "swiper/swiper.css";
 
 // 3× ensures loop has enough originals for the largest slidesPerView breakpoint (5.4 → needs ≥12)
 export function CategoriesSlider({ categoriesData }: { categoriesData: any[] }) {
-  const loopSlides = [...categoriesData, ...categoriesData, ...categoriesData];
+  const items = categoriesData ?? [];
+  const loopSlides = items.length ? [...items, ...items, ...items] : [];
   const swiperRef = useRef<SwiperClass | null>(null);
+
+  if (!items.length) return null;
 
   return (
     <section className="py-14 sm:py-20 bg-[color:var(--surface)] border-t border-[color:var(--border)]">
@@ -95,17 +98,21 @@ export function CategoriesSlider({ categoriesData }: { categoriesData: any[] }) 
           }}
           className="w-full !pb-2"
         >
-          {loopSlides.map((cat, i) => (
-            <SwiperSlide key={`${cat.id}-${i}`}>
+          {loopSlides.map((cat, i) => {
+            const imageSrc = typeof cat.image === "string" ? cat.image : cat.image?.src || "";
+            const categorySlug = cat.slug || cat.href?.replace(/^\/?portfolio\?cat=/, "") || cat.id;
+
+            return (
+            <SwiperSlide key={`${cat.id ?? categorySlug}-${i}`}>
               <Link
-                href={`/portfolio?cat=${cat.slug || cat.href?.replace('/', '')}`}
+                href={`/portfolio?cat=${categorySlug}`}
                 className="relative block rounded-2xl overflow-hidden group"
                 aria-label={`View ${cat.name} portfolio`}
               >
                 {/* 3:4 portrait aspect */}
                 <div className="aspect-[3/4] relative">
                   <Image
-                    src={cat.image}
+                    src={imageSrc}
                     alt={cat.name}
                     fill
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.07]"
@@ -136,7 +143,8 @@ export function CategoriesSlider({ categoriesData }: { categoriesData: any[] }) 
                 </div>
               </Link>
             </SwiperSlide>
-          ))}
+            );
+          })}
         </Swiper>
       </motion.div>
     </section>

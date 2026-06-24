@@ -125,6 +125,14 @@ a {
 
 .site-main {
   flex: 1;
+  /* Clearance for fixed floating bottom navigation */
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 640px) {
+  .site-main {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .content-wrap {

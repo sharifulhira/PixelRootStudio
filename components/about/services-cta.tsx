@@ -15,7 +15,7 @@ const SERVICES = [
 
 export function ServicesCta() {
   return (
-    <section className="relative overflow-hidden bg-black pb-28 sm:pb-24">
+    <section className="relative overflow-hidden bg-black pb-14 sm:pb-16">
       {/* Background */}
       <Image
         src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1920&q=80&auto=format&fit=crop"

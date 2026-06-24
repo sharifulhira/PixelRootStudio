@@ -14,13 +14,12 @@ type GalleryImage = {
 };
 
 export function ProjectGallery({ gallery }: { gallery: GalleryImage[] }) {
-  if (!gallery || gallery.length === 0) return null;
-
+  const items = gallery ?? [];
   const [active, setActive] = useState<number | null>(null);
 
   const close = useCallback(() => setActive(null), []);
-  const prev = useCallback(() => setActive((i) => (i === null ? null : (i - 1 + gallery.length) % gallery.length)), [gallery.length]);
-  const next = useCallback(() => setActive((i) => (i === null ? null : (i + 1) % gallery.length)), [gallery.length]);
+  const prev = useCallback(() => setActive((i) => (i === null ? null : (i - 1 + items.length) % items.length)), [items.length]);
+  const next = useCallback(() => setActive((i) => (i === null ? null : (i + 1) % items.length)), [items.length]);
 
   useEffect(() => {
     if (active === null) return;
@@ -38,7 +37,9 @@ export function ProjectGallery({ gallery }: { gallery: GalleryImage[] }) {
     return () => { document.body.style.overflow = ""; };
   }, [active]);
 
-  const item = active !== null ? gallery[active] : null;
+  const item = active !== null ? items[active] : null;
+
+  if (!items.length) return null;
 
   return (
     <section className="py-12 sm:py-16 bg-[color:var(--surface)] border-t border-[color:var(--border)]">
@@ -55,7 +56,7 @@ export function ProjectGallery({ gallery }: { gallery: GalleryImage[] }) {
 
         {/* Grid */}
         <div className="gallery-masonry">
-          {gallery.map((img, i) => (
+          {items.map((img, i) => (
             <motion.div
               key={img.id}
               initial={{ opacity: 0, y: 18 }}
@@ -121,7 +122,7 @@ export function ProjectGallery({ gallery }: { gallery: GalleryImage[] }) {
             </button>
 
             <div className="absolute top-4 left-1/2 -translate-x-1/2 text-[11px] font-semibold tracking-[0.18em] uppercase text-white/35 select-none">
-              {active + 1} &nbsp;/&nbsp; {gallery.length}
+              {active + 1} &nbsp;/&nbsp; {items.length}
             </div>
 
             <button
@@ -151,7 +152,7 @@ export function ProjectGallery({ gallery }: { gallery: GalleryImage[] }) {
               exit={{ opacity: 0, scale: 0.93 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="flex flex-col items-center px-16 sm:px-20 max-w-full"
+              className="flex flex-col items-center px-12 sm:px-16 md:px-20 max-w-full"
             >
               <Image
                 src={item.src}
@@ -174,7 +175,7 @@ export function ProjectGallery({ gallery }: { gallery: GalleryImage[] }) {
             </motion.div>
 
             <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5" aria-hidden="true">
-              {gallery.map((_, idx) => (
+              {items.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={(e) => { e.stopPropagation(); setActive(idx); }}

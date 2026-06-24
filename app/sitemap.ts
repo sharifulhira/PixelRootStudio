@@ -1,15 +1,13 @@
 import type { MetadataRoute } from "next";
 import { getSiteSeo } from "@/seo/site-seo";
-import { client } from "@/sanity/lib/client";
-import { projectSlugsQuery } from "@/sanity/lib/queries";
+import projectsData from "@/data/projects.json";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteSeo = await getSiteSeo();
-  const slugs = await client.fetch(projectSlugsQuery).catch(() => []);
+export default function sitemap(): MetadataRoute.Sitemap {
+  const siteSeo = getSiteSeo();
 
-  const projects: MetadataRoute.Sitemap = slugs.map((item: any) => ({
-    url: `${siteSeo.siteUrl}/portfolio/${item.slug}`,
-    lastModified: new Date(),
+  const projects: MetadataRoute.Sitemap = projectsData.map((project) => ({
+    url: `${siteSeo.siteUrl}/portfolio/${project.slug}`,
+    lastModified: new Date(project.date),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
@@ -32,6 +30,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
+    },
+    {
+      url: `${siteSeo.siteUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
     },
     ...projects,
   ];

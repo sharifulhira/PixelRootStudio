@@ -1,0 +1,160 @@
+[
+  {
+    "id": "p1",
+    "title": "Urban Elegance — Fashion Editorial",
+    "slug": "urban-elegance-fashion",
+    "summary": "A high-fashion editorial shoot blending modern urban architecture with luxury couture styling and cinematic lighting.",
+    "date": "2025-09-15",
+    "client": "Luxe Atelier",
+    "featured": true,
+    "coverImage": {
+      "src": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=85&auto=format&fit=crop",
+      "alt": "Fashion editorial photography — urban elegance"
+    },
+    "category": { "id": "fashion", "name": "Fashion", "slug": "fashion" },
+    "seo": {
+      "metaTitle": "Urban Elegance Fashion Editorial | PixelRoot Studio",
+      "metaDescription": "High-fashion editorial photography blending urban architecture with luxury couture styling."
+    },
+    "body": [
+      "This editorial was conceived as a dialogue between structure and softness — sharp city lines meeting fluid fabric and deliberate poses.",
+      "Shot across three locations in Dhaka's modern business district, each frame was lit to emphasise texture, silhouette, and the interplay of warm amber tones against cool concrete.",
+      "The result is a portfolio of images that feel both editorial and timeless — crafted for a luxury fashion brand seeking a modern urban identity."
+    ],
+    "gallery": [
+      {
+        "id": "g1",
+        "src": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=85&auto=format&fit=crop",
+        "alt": "Fashion model in urban setting",
+        "caption": "Golden hour on the rooftop terrace"
+      },
+      {
+        "id": "g2",
+        "src": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&q=85&auto=format&fit=crop",
+        "alt": "Editorial fashion portrait",
+        "caption": "Couture detail and dramatic lighting"
+      },
+      {
+        "id": "g3",
+        "src": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=900&q=85&auto=format&fit=crop",
+        "alt": "Fashion editorial full-length shot"
+      }
+    ],
+    "team": ["t1", "t4"]
+  },
+  {
+    "id": "p2",
+    "title": "Garden Romance — Wedding Collection",
+    "slug": "garden-romance-wedding",
+    "summary": "An intimate garden wedding captured with documentary sensitivity and cinematic colour grading for timeless keepsakes.",
+    "date": "2025-06-22",
+    "client": "Rahman & Sultana",
+    "featured": true,
+    "coverImage": {
+      "src": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85&auto=format&fit=crop",
+      "alt": "Wedding photography — garden ceremony"
+    },
+    "category": { "id": "weddings", "name": "Weddings", "slug": "weddings" },
+    "seo": {
+      "metaTitle": "Garden Romance Wedding | PixelRoot Studio",
+      "metaDescription": "Intimate garden wedding photography with documentary sensitivity and cinematic colour."
+    },
+    "body": [
+      "From the first look beneath the banyan trees to the final dance under string lights, every moment of this celebration was documented with an unobtrusive, story-driven approach.",
+      "We prioritised authentic emotion over posed perfection — allowing the couple's natural connection to guide the narrative of the day.",
+      "The final gallery delivers a cohesive visual story: warm, romantic, and designed to be treasured for generations."
+    ],
+    "gallery": [
+      {
+        "id": "g4",
+        "src": "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=85&auto=format&fit=crop",
+        "alt": "Wedding couple portrait",
+        "caption": "First look beneath the garden canopy"
+      },
+      {
+        "id": "g5",
+        "src": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=85&auto=format&fit=crop",
+        "alt": "Wedding ceremony moment"
+      },
+      {
+        "id": "g6",
+        "src": "https://images.unsplash.com/photo-1522673605300-519817acf4ae?w=900&q=85&auto=format&fit=crop",
+        "alt": "Wedding reception celebration"
+      }
+    ],
+    "team": ["t1", "t2"]
+  },
+  {
+    "id": "p3",
+    "title": "Summit Corporate — Brand Campaign",
+    "slug": "summit-corporate-brand",
+    "summary": "A corporate brand photography campaign for a leading technology firm, showcasing leadership, culture, and workplace excellence.",
+    "date": "2025-03-10",
+    "client": "Summit Technologies",
+    "featured": false,
+    "coverImage": {
+      "src": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&q=85&auto=format&fit=crop",
+      "alt": "Corporate brand photography"
+    },
+    "category": { "id": "corporate", "name": "Corporate", "slug": "corporate" },
+    "seo": {
+      "metaTitle": "Summit Corporate Brand Campaign | PixelRoot Studio",
+      "metaDescription": "Corporate brand photography showcasing leadership, culture, and workplace excellence."
+    },
+    "body": [
+      "Summit Technologies needed a visual identity refresh for their annual report, website, and social channels — imagery that communicates innovation, trust, and human connection.",
+      "Over two days on location, we photographed executive portraits, team collaborations, and candid workplace moments using a clean, modern lighting setup.",
+      "The delivered assets gave the brand a cohesive, premium visual language across all touchpoints."
+    ],
+    "gallery": [
+      {
+        "id": "g7",
+        "src": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=85&auto=format&fit=crop",
+        "alt": "Corporate team meeting",
+        "caption": "Collaborative workspace culture"
+      },
+      {
+        "id": "g8",
+        "src": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=85&auto=format&fit=crop",
+        "alt": "Executive portrait"
+      }
+    ],
+    "team": ["t1", "t3"]
+  },
+  {
+    "id": "p4",
+    "title": "Artisan Collection — Product Photography",
+    "slug": "artisan-product-collection",
+    "summary": "Commercial product photography for a luxury skincare line, featuring meticulous lighting and refined post-production.",
+    "date": "2024-11-05",
+    "client": "Artisan Skincare Co.",
+    "featured": false,
+    "coverImage": {
+      "src": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=85&auto=format&fit=crop",
+      "alt": "Commercial product photography"
+    },
+    "category": { "id": "product", "name": "Product", "slug": "product" },
+    "seo": {
+      "metaTitle": "Artisan Product Collection | PixelRoot Studio",
+      "metaDescription": "Luxury skincare product photography with meticulous lighting and refined post-production."
+    },
+    "body": [
+      "Each product in the Artisan Skincare line was photographed individually with a consistent lighting rig designed to highlight glass textures, label typography, and liquid clarity.",
+      "Multiple angles and lifestyle compositions were created for e-commerce, packaging, and digital advertising use.",
+      "Post-production focused on colour accuracy and subtle enhancement — ensuring the products looked as premium in print as they do in person."
+    ],
+    "gallery": [
+      {
+        "id": "g9",
+        "src": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=900&q=85&auto=format&fit=crop",
+        "alt": "Skincare product flat lay"
+      },
+      {
+        "id": "g10",
+        "src": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=900&q=85&auto=format&fit=crop",
+        "alt": "Product bottle close-up"
+      }
+    ],
+    "team": ["t1", "t4"]
+  }
+]

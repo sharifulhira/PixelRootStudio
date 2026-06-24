@@ -29,7 +29,7 @@ export function TeamSection({ teamData }: { teamData: any[] }) {
         </motion.div>
 
         {/* Team grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">
           {teamData.map((member, i) => (
             <motion.div
               key={member.id}
