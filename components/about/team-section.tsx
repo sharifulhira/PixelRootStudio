@@ -4,12 +4,29 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 // import teamData from "@/data/team.json";
 
-export function TeamSection({ teamData }: { teamData: any[] }) {
+export function TeamSection({
+  teamData,
+  showHeader = true,
+  badge = "Our Team",
+  title = "The People Behind\nEvery Great Shot",
+  subtitle = "A tight-knit team of creatives united by one goal — delivering visuals that exceed every expectation.",
+}: {
+  teamData: any[];
+  showHeader?: boolean;
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+}) {
+  if (!teamData?.length) return null;
+
+  const titleLines = title.split("\n");
+
   return (
     <section className="py-16 sm:py-20 bg-[color:var(--surface)] border-b border-[color:var(--border)]">
       <div className="px-5 sm:px-10 lg:px-16 max-w-[1200px] mx-auto">
 
         {/* Header */}
+        {showHeader && (
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -18,15 +35,21 @@ export function TeamSection({ teamData }: { teamData: any[] }) {
           className="mb-12 sm:mb-14"
         >
           <span className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[color:var(--primary)] mb-2">
-            Our Team
+            {badge}
           </span>
           <h2 className="hero-headline text-[1.9rem] sm:text-[2.4rem] font-bold text-[color:var(--text)] leading-tight tracking-[-0.02em]">
-            The People Behind<br className="hidden sm:block" /> Every Great Shot
+            {titleLines.map((line, i) => (
+              <span key={i}>
+                {line}
+                {i < titleLines.length - 1 && <br className="hidden sm:block" />}
+              </span>
+            ))}
           </h2>
           <p className="mt-3 text-sm text-[color:var(--muted)] max-w-md leading-relaxed">
-            A tight-knit team of creatives united by one goal — delivering visuals that exceed every expectation.
+            {subtitle}
           </p>
         </motion.div>
+        )}
 
         {/* Team grid */}
         <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6">

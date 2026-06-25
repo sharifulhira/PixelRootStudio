@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
+const allowedDevOrigins = [
+  "localhost",
+  "127.0.0.1",
+  ...(process.env.ALLOWED_DEV_ORIGINS?.split(",").map((origin) => origin.trim()).filter(Boolean) ?? []),
+];
+
 const nextConfig: NextConfig = {
+  // Allow dev server access via local network IP (e.g. http://192.168.x.x:3000)
+  allowedDevOrigins,
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 85, 90],

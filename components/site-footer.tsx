@@ -3,7 +3,9 @@ import { getSiteSeo, getAbout, getSocialSection } from "@/lib/db/queries";
 
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/packages", label: "Packages" },
   { href: "/about", label: "About" },
+  { href: "/team", label: "Team" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/contact", label: "Contact" },
 ];

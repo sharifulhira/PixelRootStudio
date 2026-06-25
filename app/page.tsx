@@ -6,10 +6,12 @@ import { VideoHighlight } from "@/components/home/video-highlight";
 import { GallerySection } from "@/components/home/gallery-section";
 import { GearShowcase } from "@/components/home/gear-showcase";
 import { SocialSection } from "@/components/home/social-section";
-import { getHero, getFeaturedCategories, getFeaturedGalleryItems, getGearSettings, getGearItems, getSocialSection } from "@/lib/db/queries";
+import { PackagesPreview } from "@/components/home/packages-preview";
+import { CtaBanner } from "@/components/home/cta-banner";
+import { getHero, getFeaturedCategories, getFeaturedGalleryItems, getGearSettings, getGearItems, getSocialSection, getPopularPackages, getPackageSettings } from "@/lib/db/queries";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
 export default function Home() {
   const heroData = getHero();
@@ -18,6 +20,8 @@ export default function Home() {
   const gearSettings = getGearSettings();
   const gearItems = getGearItems();
   const socialData = getSocialSection();
+  const popularPackages = getPopularPackages();
+  const packageSettings = getPackageSettings();
   const homeJsonLd = getHomeJsonLd();
 
   if (!heroData) {
@@ -34,11 +38,37 @@ export default function Home() {
         subtitle={heroData.videoSubtitle}
       />
       <GallerySection galleryData={galleryData} />
+
+      <CtaBanner
+        headline="Like What You See?"
+        subtext="Let's create stunning visuals for your next project. Every frame tells a story."
+        ctaLabel="View Packages"
+        ctaHref="/packages"
+        variant="dark"
+      />
+
+      <PackagesPreview
+        title={packageSettings.title}
+        subtitle={packageSettings.subtitle}
+        ctaLabel={packageSettings.ctaLabel}
+        ctaHref={packageSettings.ctaHref}
+        packages={popularPackages}
+      />
+
       <GearShowcase 
         title={gearSettings.title}
         subtitle={gearSettings.subtitle}
         gear={gearItems}
       />
+
+      <CtaBanner
+        headline="Ready to Book Your Session?"
+        subtext="Premium equipment, cinematic expertise, and a dedicated team — all at your service."
+        ctaLabel="Book Your Session"
+        ctaHref="/packages"
+        variant="light"
+      />
+
       {socialData && (
         <SocialSection
           title={socialData.title}

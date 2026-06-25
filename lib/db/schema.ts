@@ -203,6 +203,60 @@ export const gearSettings = sqliteTable("gear_settings", {
 });
 
 // ─────────────────────────────────────────────────────────────
+// Packages
+// ─────────────────────────────────────────────────────────────
+export const packages = sqliteTable("packages", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  category: text("category").notNull(), // wedding, corporate, fashion, product, event
+  shortDescription: text("short_description"),
+  description: text("description"),
+  features: text("features"), // JSON array of strings
+  price: real("price"),
+  priceLabel: text("price_label"), // e.g. "Starting from" or "From ৳"
+  currency: text("currency").default("BDT"),
+  duration: text("duration"), // e.g. "4-6 hours", "Full day"
+  deliverables: text("deliverables"), // e.g. "50 edited photos"
+  popular: integer("popular", { mode: "boolean" }).default(false),
+  active: integer("active", { mode: "boolean" }).default(true),
+  imageSrc: text("image_src"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────────────────────────
+// Bookings
+// ─────────────────────────────────────────────────────────────
+export const bookings = sqliteTable("bookings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  packageId: integer("package_id").references(() => packages.id),
+  packageName: text("package_name"), // denormalized for quick display
+  clientName: text("client_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  eventDate: text("event_date"),
+  eventType: text("event_type"),
+  message: text("message"),
+  status: text("status").notNull().default("pending"), // pending, confirmed, completed, cancelled
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────────────────────────
+// Package Settings (section heading on homepage)
+// ─────────────────────────────────────────────────────────────
+export const packageSettings = sqliteTable("package_settings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").default("Our Packages"),
+  subtitle: text("subtitle"),
+  ctaLabel: text("cta_label").default("View All Packages"),
+  ctaHref: text("cta_href").default("/packages"),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────────────────────────
 // Type exports for convenience
 // ─────────────────────────────────────────────────────────────
 export type AdminUser = typeof adminUsers.$inferSelect;
@@ -217,3 +271,8 @@ export type Project = typeof projects.$inferSelect;
 export type ProjectGalleryImage = typeof projectGallery.$inferSelect;
 export type Gear = typeof gear.$inferSelect;
 export type GearSettings = typeof gearSettings.$inferSelect;
+export type Package = typeof packages.$inferSelect;
+export type NewPackage = typeof packages.$inferInsert;
+export type Booking = typeof bookings.$inferSelect;
+export type NewBooking = typeof bookings.$inferInsert;
+export type PackageSettings = typeof packageSettings.$inferSelect;

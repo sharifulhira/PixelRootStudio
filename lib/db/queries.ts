@@ -1,5 +1,5 @@
 import { db } from "./index";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import * as schema from "./schema";
 
 // ─────────────────────────────────────────────────────────────
@@ -430,6 +430,104 @@ export function getSocialSection() {
       "Stay connected for behind-the-scenes content, latest work, and creative inspiration.",
     links,
   };
+}
+
+// ─────────────────────────────────────────────────────────────
+// Packages
+// ─────────────────────────────────────────────────────────────
+export function getPackageSettings() {
+  const result = db.select().from(schema.packageSettings).get();
+  if (!result) {
+    return {
+      title: "Our Packages",
+      subtitle: "Premium photography packages tailored to your needs.",
+      ctaLabel: "View All Packages",
+      ctaHref: "/packages",
+    };
+  }
+  return {
+    title: result.title || "Our Packages",
+    subtitle: nullToUndefined(result.subtitle),
+    ctaLabel: result.ctaLabel || "View All Packages",
+    ctaHref: result.ctaHref || "/packages",
+  };
+}
+
+export function getActivePackages() {
+  return db
+    .select()
+    .from(schema.packages)
+    .where(eq(schema.packages.active, true))
+    .orderBy(schema.packages.sortOrder)
+    .all()
+    .map((pkg) => ({
+      ...pkg,
+      features: pkg.features ? JSON.parse(pkg.features) : [],
+    }));
+}
+
+export function getPopularPackages() {
+  return db
+    .select()
+    .from(schema.packages)
+    .where(eq(schema.packages.active, true))
+    .orderBy(schema.packages.sortOrder)
+    .all()
+    .filter((pkg) => pkg.popular)
+    .slice(0, 3)
+    .map((pkg) => ({
+      ...pkg,
+      features: pkg.features ? JSON.parse(pkg.features) : [],
+    }));
+}
+
+export function getPackageBySlug(slug: string) {
+  const pkg = db
+    .select()
+    .from(schema.packages)
+    .where(eq(schema.packages.slug, slug))
+    .get();
+  if (!pkg) return null;
+  return {
+    ...pkg,
+    features: pkg.features ? JSON.parse(pkg.features) : [],
+  };
+}
+
+export function getAllPackages() {
+  return db
+    .select()
+    .from(schema.packages)
+    .orderBy(schema.packages.sortOrder)
+    .all()
+    .map((pkg) => ({
+      ...pkg,
+      features: pkg.features ? JSON.parse(pkg.features) : [],
+    }));
+}
+
+// ─────────────────────────────────────────────────────────────
+// Bookings
+// ─────────────────────────────────────────────────────────────
+export function getBookings() {
+  return db
+    .select()
+    .from(schema.bookings)
+    .orderBy(desc(schema.bookings.createdAt))
+    .all();
+}
+
+export function getBookingById(id: number) {
+  return db.select().from(schema.bookings).where(eq(schema.bookings.id, id)).get();
+}
+
+export function getPendingBookingsCount() {
+  const result = db
+    .select()
+    .from(schema.bookings)
+    .where(eq(schema.bookings.status, "pending"))
+    .all();
+  return result.length;
 }
 
 // ─────────────────────────────────────────────────────────────

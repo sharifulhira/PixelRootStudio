@@ -30,6 +30,11 @@ export function GearShowcase({
   const featuredGear = gear.filter((g) => g.featured);
   const otherGear = gear.filter((g) => !g.featured);
 
+  const categoryCounts = gear.reduce((acc, item) => {
+    acc[item.category] = (acc[item.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
   return (
     <section className="py-16 sm:py-24 bg-[color:var(--bg)] border-t border-[color:var(--border)]">
       <div className="px-5 sm:px-10 lg:px-16 max-w-[1400px] mx-auto">
@@ -77,7 +82,15 @@ export function GearShowcase({
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority={i < 2}
                   />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/50 transition-colors duration-300" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                </div>
+
+                {/* Category count — top */}
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2.5 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-lg font-bold text-white">
+                    {categoryCounts[item.category]}
+                  </span>
                 </div>
                 
                 {/* Content Overlay */}
@@ -129,7 +142,15 @@ export function GearShowcase({
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/50 transition-colors duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                </div>
+
+                {/* Category count — top */}
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="inline-flex items-center justify-center min-w-[1.75rem] h-7 px-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-sm font-bold text-white">
+                    {categoryCounts[item.category]}
+                  </span>
                 </div>
                 
                 {/* Content */}
@@ -145,93 +166,6 @@ export function GearShowcase({
             ))}
           </motion.div>
         )}
-
-        {/* Category Stats */}
-        {(() => {
-          const categoryCounts = gear.reduce((acc, item) => {
-            acc[item.category] = (acc[item.category] || 0) + 1;
-            return acc;
-          }, {} as Record<string, number>);
-
-          const categoryIcons: Record<string, string> = {
-            Camera: "📷",
-            Lens: "🔭",
-            Lighting: "💡",
-            Video: "🎬",
-            Drone: "🚁",
-            Audio: "🎙️",
-            Stabilizer: "🎥",
-            Monitor: "🖥️",
-            Backdrop: "🎨",
-            Tripod: "📐",
-            Storage: "💾",
-            Accessory: "🎒",
-          };
-
-          const categoryStats = Object.entries(categoryCounts)
-            .filter(([, count]) => count > 0)
-            .sort((a, b) => b[1] - a[1])
-            .map(([category, count]) => ({
-              category,
-              count,
-              icon: categoryIcons[category] || "📦",
-            }));
-
-          return (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: easeOut, delay: 0.2 }}
-              className="mt-12 sm:mt-16"
-            >
-              {/* Stats Container */}
-              <div className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] overflow-hidden">
-                {/* Total Header */}
-                <div className="px-6 py-5 border-b border-[color:var(--border)] flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                      <span className="text-lg">📦</span>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[color:var(--muted)]">Total Equipment</p>
-                      <p className="text-xl font-bold text-[color:var(--text)]">{gear.length} <span className="text-sm font-normal text-[color:var(--muted)]">items</span></p>
-                    </div>
-                  </div>
-                  <div className="text-[10px] font-semibold tracking-[0.12em] uppercase text-amber-500/70 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">
-                    {categoryStats.length} Categories
-                  </div>
-                </div>
-
-                {/* Category Grid */}
-                <div className="p-4 sm:p-6">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                    {categoryStats.map((stat, i) => (
-                      <motion.div
-                        key={stat.category}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, ease: easeOut, delay: 0.03 * i }}
-                        className="group relative rounded-xl bg-[color:var(--bg)] border border-[color:var(--border)] p-4 hover:border-amber-500/30 transition-all duration-300"
-                      >
-                        <div className="flex flex-col items-center text-center gap-2">
-                          <div className="w-12 h-12 rounded-full bg-[color:var(--surface)] border border-[color:var(--border)] flex items-center justify-center group-hover:border-amber-500/30 group-hover:bg-amber-500/5 transition-all duration-300">
-                            <span className="text-xl">{stat.icon}</span>
-                          </div>
-                          <div>
-                            <p className="text-2xl font-bold text-[color:var(--text)] leading-none">{stat.count}</p>
-                            <p className="text-[10px] font-medium text-[color:var(--muted)] mt-1 uppercase tracking-wider">{stat.category}</p>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })()}
       </div>
     </section>
   );

@@ -66,6 +66,8 @@ async function seed() {
       social_instagram TEXT,
       social_youtube TEXT,
       social_linkedin TEXT,
+      social_title TEXT,
+      social_subtitle TEXT,
       og_image TEXT,
       updated_at INTEGER
     );
@@ -84,6 +86,8 @@ async function seed() {
       image_src TEXT,
       image_alt TEXT,
       video_url TEXT,
+      video_title TEXT,
+      video_subtitle TEXT,
       updated_at INTEGER
     );
 
@@ -172,6 +176,24 @@ async function seed() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
       team_member_id INTEGER NOT NULL REFERENCES team_members(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS gear (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      category TEXT NOT NULL,
+      description TEXT,
+      image_src TEXT,
+      featured INTEGER DEFAULT 0,
+      sort_order INTEGER DEFAULT 0,
+      created_at INTEGER
+    );
+
+    CREATE TABLE IF NOT EXISTS gear_settings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT DEFAULT 'Our Gear',
+      subtitle TEXT,
+      updated_at INTEGER
     );
   `);
 
@@ -372,6 +394,183 @@ async function seed() {
   }
   
   console.log(`✓ ${projectsData.length} projects seeded`);
+
+  // ─────────────────────────────────────────────────────────────
+  // Create Packages & Bookings tables
+  // ─────────────────────────────────────────────────────────────
+  sqlite.exec(`
+    CREATE TABLE IF NOT EXISTS packages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      slug TEXT NOT NULL UNIQUE,
+      category TEXT NOT NULL,
+      short_description TEXT,
+      description TEXT,
+      features TEXT,
+      price REAL,
+      price_label TEXT,
+      currency TEXT DEFAULT 'BDT',
+      duration TEXT,
+      deliverables TEXT,
+      popular INTEGER DEFAULT 0,
+      active INTEGER DEFAULT 1,
+      image_src TEXT,
+      sort_order INTEGER DEFAULT 0,
+      created_at INTEGER,
+      updated_at INTEGER
+    );
+
+    CREATE TABLE IF NOT EXISTS bookings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      package_id INTEGER REFERENCES packages(id),
+      package_name TEXT,
+      client_name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      event_date TEXT,
+      event_type TEXT,
+      message TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      created_at INTEGER,
+      updated_at INTEGER
+    );
+
+    CREATE TABLE IF NOT EXISTS package_settings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT DEFAULT 'Our Packages',
+      subtitle TEXT,
+      cta_label TEXT DEFAULT 'View All Packages',
+      cta_href TEXT DEFAULT '/packages',
+      updated_at INTEGER
+    );
+  `);
+
+  console.log("✓ Packages & Bookings tables created");
+
+  // ─────────────────────────────────────────────────────────────
+  // Seed Package Settings
+  // ─────────────────────────────────────────────────────────────
+  db.insert(schema.packageSettings).values({
+    title: "Our Packages",
+    subtitle: "Premium photography packages designed to capture your most important moments with cinematic excellence.",
+    ctaLabel: "View All Packages",
+    ctaHref: "/packages",
+    updatedAt: new Date(),
+  }).run();
+
+  // ─────────────────────────────────────────────────────────────
+  // Seed Packages
+  // ─────────────────────────────────────────────────────────────
+  const packagesData = [
+    {
+      name: "Wedding Essential",
+      slug: "wedding-essential",
+      category: "wedding",
+      shortDescription: "Perfect for intimate ceremonies",
+      description: "Capture every precious moment of your intimate wedding ceremony. This package includes professional coverage of the ceremony, couple portraits, and family group photos with expertly edited deliverables.",
+      features: ["4-6 hours coverage", "1 photographer", "200+ edited photos", "Online gallery", "10 printed photos (8x12)", "Highlight slideshow"],
+      price: 35000,
+      priceLabel: "Starting from",
+      currency: "BDT",
+      duration: "4-6 hours",
+      deliverables: "200+ edited photos",
+      popular: false,
+    },
+    {
+      name: "Wedding Premium",
+      slug: "wedding-premium",
+      category: "wedding",
+      shortDescription: "Complete coverage for your big day",
+      description: "Full-day wedding coverage with a team of photographers ensuring no moment goes uncaptured. From getting ready shots to the reception, every emotion and detail is documented beautifully.",
+      features: ["Full day coverage (12+ hours)", "2 photographers", "500+ edited photos", "Cinematic highlight video (3-5 min)", "Premium album (40 pages)", "Online gallery", "Pre-wedding shoot included", "Drone coverage"],
+      price: 85000,
+      priceLabel: "Starting from",
+      currency: "BDT",
+      duration: "Full day (12+ hours)",
+      deliverables: "500+ edited photos + video",
+      popular: true,
+    },
+    {
+      name: "Corporate Event",
+      slug: "corporate-event",
+      category: "corporate",
+      shortDescription: "Professional event documentation",
+      description: "Professional photography for corporate events, conferences, seminars, and product launches. Clean, sharp images perfect for press releases, social media, and internal communications.",
+      features: ["4-8 hours coverage", "1-2 photographers", "300+ edited photos", "Same-day preview (20 photos)", "Corporate headshots (up to 20 people)", "Event highlight video", "Social media ready crops"],
+      price: 45000,
+      priceLabel: "Starting from",
+      currency: "BDT",
+      duration: "4-8 hours",
+      deliverables: "300+ edited photos",
+      popular: false,
+    },
+    {
+      name: "Fashion Portfolio",
+      slug: "fashion-portfolio",
+      category: "fashion",
+      shortDescription: "Elevate your fashion brand",
+      description: "High-end fashion photography for lookbooks, campaigns, and portfolios. Studio or location shoots with professional lighting and creative direction to showcase your designs.",
+      features: ["Half day studio/location shoot", "Professional lighting setup", "50+ edited photos", "5 retouched hero images", "Mood board consultation", "Styling guidance", "Commercial usage license"],
+      price: 55000,
+      priceLabel: "Starting from",
+      currency: "BDT",
+      duration: "Half day (4-5 hours)",
+      deliverables: "50+ edited photos",
+      popular: true,
+    },
+    {
+      name: "Product Photography",
+      slug: "product-photography",
+      category: "product",
+      shortDescription: "Make your products shine",
+      description: "Clean, professional product photography for e-commerce, catalogs, and advertising. White background, lifestyle, and creative compositions that make your products irresistible.",
+      features: ["Up to 20 products", "White background shots", "Lifestyle compositions", "Multiple angles per product", "Web-optimized exports", "E-commerce ready", "2-day turnaround"],
+      price: 25000,
+      priceLabel: "Starting from",
+      currency: "BDT",
+      duration: "1 day",
+      deliverables: "60+ product photos",
+      popular: false,
+    },
+    {
+      name: "Event Coverage",
+      slug: "event-coverage",
+      category: "event",
+      shortDescription: "Document your special occasions",
+      description: "Whether it's a birthday celebration, anniversary, or community gathering, we capture the energy, joy, and candid moments that make your event memorable.",
+      features: ["3-5 hours coverage", "1 photographer", "150+ edited photos", "Online gallery", "Quick turnaround (5 days)", "Social media highlights"],
+      price: 20000,
+      priceLabel: "Starting from",
+      currency: "BDT",
+      duration: "3-5 hours",
+      deliverables: "150+ edited photos",
+      popular: true,
+    },
+  ];
+
+  for (let i = 0; i < packagesData.length; i++) {
+    const pkg = packagesData[i];
+    db.insert(schema.packages).values({
+      name: pkg.name,
+      slug: pkg.slug,
+      category: pkg.category,
+      shortDescription: pkg.shortDescription,
+      description: pkg.description,
+      features: JSON.stringify(pkg.features),
+      price: pkg.price,
+      priceLabel: pkg.priceLabel,
+      currency: pkg.currency,
+      duration: pkg.duration,
+      deliverables: pkg.deliverables,
+      popular: pkg.popular,
+      active: true,
+      sortOrder: i,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).run();
+  }
+
+  console.log(`✓ ${packagesData.length} packages seeded`);
 
   console.log("\n✅ Database seeded successfully!");
   console.log("\n📝 Admin login:");
