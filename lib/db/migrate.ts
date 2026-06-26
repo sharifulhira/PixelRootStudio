@@ -125,15 +125,19 @@ export function runMigrations(sqlite: Database.Database) {
     }
   }
 
-  sqlite.exec(`
-    UPDATE bookings
-    SET invoice_id = (
-      SELECT id FROM invoices WHERE invoices.booking_id = bookings.id LIMIT 1
-    ),
-    invoice_number = (
-      SELECT invoice_number FROM invoices WHERE invoices.booking_id = bookings.id LIMIT 1
-    )
-    WHERE invoice_id IS NULL
-      AND EXISTS (SELECT 1 FROM invoices WHERE invoices.booking_id = bookings.id)
-  `);
+  try {
+    sqlite.exec(`
+      UPDATE bookings
+      SET invoice_id = (
+        SELECT id FROM invoices WHERE invoices.booking_id = bookings.id LIMIT 1
+      ),
+      invoice_number = (
+        SELECT invoice_number FROM invoices WHERE invoices.booking_id = bookings.id LIMIT 1
+      )
+      WHERE invoice_id IS NULL
+        AND EXISTS (SELECT 1 FROM invoices WHERE invoices.booking_id = bookings.id)
+    `);
+  } catch {
+    // bookings table may not exist on fresh databases
+  }
 }

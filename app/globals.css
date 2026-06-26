@@ -113,15 +113,20 @@ a {
 /* Homepage corporate clients infinite marquee */
 @keyframes clients-marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .clients-marquee-track {
-  animation: clients-marquee 40s linear infinite;
+  animation: clients-marquee var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.clients-marquee-group {
+  min-width: max-content;
 }
 
 .clients-marquee-track:hover {
@@ -136,6 +141,10 @@ a {
     justify-content: center;
     gap: 1.5rem;
     padding-inline: 1rem;
+  }
+
+  .clients-marquee-group[aria-hidden="true"] {
+    display: none;
   }
 }
 

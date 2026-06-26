@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { CSSProperties } from "react";
 
 export type ClientLogo = {
   id: number;
@@ -51,10 +52,21 @@ function ClientLogoCard({ client }: { client: ClientLogo }) {
   );
 }
 
+/** Repeat logos so each strip is wide enough for a seamless loop on large screens. */
+function expandForMarquee(clients: ClientLogo[], minItems = 12) {
+  if (clients.length >= minItems) return clients;
+  const expanded: ClientLogo[] = [];
+  while (expanded.length < minItems) {
+    expanded.push(...clients);
+  }
+  return expanded;
+}
+
 export function ClientsMarquee({ title, subtitle, clients }: Props) {
   if (!clients.length) return null;
 
-  const track = [...clients, ...clients];
+  const strip = expandForMarquee(clients);
+  const duration = Math.max(28, strip.length * 3.5);
 
   return (
     <section className="py-12 sm:py-16 bg-[#0a0a0a] border-y border-white/[0.06] overflow-hidden">
@@ -79,13 +91,24 @@ export function ClientsMarquee({ title, subtitle, clients }: Props) {
         </motion.div>
       </div>
 
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
 
-        <div className="clients-marquee-track flex w-max items-center">
-          {track.map((client, index) => (
-            <ClientLogoCard key={`${client.id}-${index}`} client={client} />
+        <div
+          className="clients-marquee-track flex w-max flex-nowrap items-center"
+          style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
+        >
+          {[0, 1].map((group) => (
+            <div
+              key={group}
+              className="clients-marquee-group flex shrink-0 flex-nowrap items-center"
+              aria-hidden={group === 1}
+            >
+              {strip.map((client, index) => (
+                <ClientLogoCard key={`${group}-${client.id}-${index}`} client={client} />
+              ))}
+            </div>
           ))}
         </div>
       </div>
