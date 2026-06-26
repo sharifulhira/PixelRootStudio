@@ -7,7 +7,7 @@ const allowedDevOrigins = [
 ];
 
 const nextConfig: NextConfig = {
-  // Allow dev server access via local network IP (e.g. http://192.168.x.x:3000)
+  // Allow dev server access via local network IP (e.g. http://192.168.x.x:6565)
   allowedDevOrigins,
   // Runtime uploads land in public/uploads after build — serve via API, not the build-time static manifest
   async rewrites() {

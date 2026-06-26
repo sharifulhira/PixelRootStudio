@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --hostname 0.0.0.0",
+    "dev": "next dev --hostname 0.0.0.0 -p 6565",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 6565",
     "lint": "eslint",
     "db:seed": "npx tsx lib/db/seed.ts",
     "db:repair": "npx tsx lib/db/repair-database.ts",
