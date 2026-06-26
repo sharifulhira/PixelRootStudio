@@ -8,6 +8,9 @@ type SeoData = {
   locale: string;
   twitterHandle: string;
   keywords: string[];
+  logo?: string;
+  favicon?: string;
+  ogImage?: string;
   organization: {
     name: string;
     email: string;
@@ -67,7 +70,7 @@ export function getHomeJsonLd() {
         : undefined,
       sameAs: socialLinks.length > 0 ? socialLinks : undefined,
       priceRange: "$$",
-      image: `${siteSeo.siteUrl}/og-image.jpg`,
+      image: siteSeo.ogImage || `${siteSeo.siteUrl}/og-image.jpg`,
       serviceType: [
         "Photography",
         "Wedding Photography",

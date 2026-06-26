@@ -111,15 +111,15 @@ export function BookingForm({ packageId, packageName, onSuccess }: Props) {
         </div>
         <div>
           <label className="block text-[10px] font-semibold tracking-[0.1em] uppercase text-[color:var(--muted)] mb-1.5">
-            Email *
+            Phone *
           </label>
           <input
-            type="email"
+            type="tel"
             required
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
             className={inputClass}
-            placeholder="your@email.com"
+            placeholder="+880 1XXX-XXXXXX"
           />
         </div>
       </div>
@@ -127,14 +127,14 @@ export function BookingForm({ packageId, packageName, onSuccess }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         <div>
           <label className="block text-[10px] font-semibold tracking-[0.1em] uppercase text-[color:var(--muted)] mb-1.5">
-            Phone
+            Email
           </label>
           <input
-            type="tel"
-            value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
             className={inputClass}
-            placeholder="+880 1XXX-XXXXXX"
+            placeholder="your@email.com (optional)"
           />
         </div>
         <div>

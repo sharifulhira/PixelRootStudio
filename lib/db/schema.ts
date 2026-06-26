@@ -38,7 +38,10 @@ export const siteSettings = sqliteTable("site_settings", {
   socialLinkedin: text("social_linkedin"),
   socialTitle: text("social_title"),
   socialSubtitle: text("social_subtitle"),
-  
+
+  // Brand assets
+  logo: text("logo"),
+  favicon: text("favicon"),
   ogImage: text("og_image"),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
 });
@@ -203,6 +206,26 @@ export const gearSettings = sqliteTable("gear_settings", {
 });
 
 // ─────────────────────────────────────────────────────────────
+// Corporate Clients (homepage logo marquee)
+// ─────────────────────────────────────────────────────────────
+export const corporateClients = sqliteTable("corporate_clients", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  logoSrc: text("logo_src").notNull(),
+  websiteUrl: text("website_url"),
+  published: integer("published", { mode: "boolean" }).default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+export const corporateClientsSettings = sqliteTable("corporate_clients_settings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").default("Trusted by Leading Brands"),
+  subtitle: text("subtitle"),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────────────────────────
 // Packages
 // ─────────────────────────────────────────────────────────────
 export const packages = sqliteTable("packages", {
@@ -227,21 +250,124 @@ export const packages = sqliteTable("packages", {
 });
 
 // ─────────────────────────────────────────────────────────────
-// Bookings
+// Leads (contact form inquiries)
+// ─────────────────────────────────────────────────────────────
+export const leads = sqliteTable("leads", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email"),
+  service: text("service"),
+  message: text("message").notNull(),
+  status: text("status").notNull().default("new"), // new, contacted, converted, closed
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────────────────────────
+// Bookings (package booking requests)
 // ─────────────────────────────────────────────────────────────
 export const bookings = sqliteTable("bookings", {
   id: integer("id").primaryKey({ autoIncrement: true }),
+  leadId: integer("lead_id").references(() => leads.id),
   packageId: integer("package_id").references(() => packages.id),
   packageName: text("package_name"), // denormalized for quick display
   clientName: text("client_name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
+  email: text("email"),
+  phone: text("phone").notNull(),
   eventDate: text("event_date"),
   eventType: text("event_type"),
   message: text("message"),
   status: text("status").notNull().default("pending"), // pending, confirmed, completed, cancelled
+  invoiceId: integer("invoice_id"),
+  invoiceNumber: text("invoice_number"),
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+// ─────────────────────────────────────────────────────────────
+// Invoices & Accounting
+// ─────────────────────────────────────────────────────────────
+export const invoiceSettings = sqliteTable("invoice_settings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  prefix: text("prefix").default("INV"),
+  nextNumber: integer("next_number").default(1001),
+  defaultTaxRate: real("default_tax_rate").default(0),
+  defaultCurrency: text("default_currency").default("BDT"),
+  defaultTerms: text("default_terms"),
+  defaultNotes: text("default_notes"),
+  companyName: text("company_name"),
+  companyEmail: text("company_email"),
+  companyPhone: text("company_phone"),
+  companyAddress: text("company_address"),
+  signatureImage: text("signature_image"),
+  paidSealImage: text("paid_seal_image"),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+export const invoices = sqliteTable("invoices", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  invoiceNumber: text("invoice_number").notNull().unique(),
+  bookingId: integer("booking_id").references(() => bookings.id),
+  clientName: text("client_name").notNull(),
+  clientEmail: text("client_email"),
+  clientPhone: text("client_phone"),
+  clientAddress: text("client_address"),
+  issueDate: text("issue_date").notNull(),
+  dueDate: text("due_date"),
+  status: text("status").notNull().default("draft"), // draft, sent, paid, overdue, cancelled
+  currency: text("currency").default("BDT"),
+  subtotal: real("subtotal").default(0),
+  taxRate: real("tax_rate").default(0),
+  taxAmount: real("tax_amount").default(0),
+  discountType: text("discount_type").default("fixed"), // fixed | percent
+  discountValue: real("discount_value").default(0),
+  discountAmount: real("discount_amount").default(0),
+  total: real("total").default(0),
+  notes: text("notes"),
+  terms: text("terms"),
+  paidAt: integer("paid_at", { mode: "timestamp" }),
+  paymentMethod: text("payment_method"),
+  paymentReference: text("payment_reference"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+export const invoicePayments = sqliteTable("invoice_payments", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  invoiceId: integer("invoice_id")
+    .notNull()
+    .references(() => invoices.id, { onDelete: "cascade" }),
+  amount: real("amount").notNull(),
+  paymentDate: text("payment_date").notNull(),
+  method: text("method"),
+  reference: text("reference"),
+  notes: text("notes"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+});
+
+export const invoiceItems = sqliteTable("invoice_items", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  invoiceId: integer("invoice_id").notNull().references(() => invoices.id, { onDelete: "cascade" }),
+  description: text("description").notNull(),
+  quantity: real("quantity").default(1),
+  unitPrice: real("unit_price").default(0),
+  amount: real("amount").default(0),
+  sortOrder: integer("sort_order").default(0),
+});
+
+// ─────────────────────────────────────────────────────────────
+// Page Views (visitor analytics)
+// ─────────────────────────────────────────────────────────────
+export const pageViews = sqliteTable("page_views", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  path: text("path").notNull(),
+  referrer: text("referrer"),
+  source: text("source").notNull().default("direct"),
+  sessionId: text("session_id").notNull(),
+  device: text("device"),
+  browser: text("browser"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -271,8 +397,19 @@ export type Project = typeof projects.$inferSelect;
 export type ProjectGalleryImage = typeof projectGallery.$inferSelect;
 export type Gear = typeof gear.$inferSelect;
 export type GearSettings = typeof gearSettings.$inferSelect;
+export type CorporateClient = typeof corporateClients.$inferSelect;
+export type CorporateClientsSettings = typeof corporateClientsSettings.$inferSelect;
 export type Package = typeof packages.$inferSelect;
 export type NewPackage = typeof packages.$inferInsert;
+export type Lead = typeof leads.$inferSelect;
+export type NewLead = typeof leads.$inferInsert;
 export type Booking = typeof bookings.$inferSelect;
 export type NewBooking = typeof bookings.$inferInsert;
 export type PackageSettings = typeof packageSettings.$inferSelect;
+export type Invoice = typeof invoices.$inferSelect;
+export type NewInvoice = typeof invoices.$inferInsert;
+export type InvoiceItem = typeof invoiceItems.$inferSelect;
+export type InvoicePayment = typeof invoicePayments.$inferSelect;
+export type InvoiceSettings = typeof invoiceSettings.$inferSelect;
+export type PageView = typeof pageViews.$inferSelect;
+export type NewPageView = typeof pageViews.$inferInsert;

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { db, projects, projectGallery, projectTeam } from "@/lib/db";
-import { getProjects, getProjectBySlug } from "@/lib/db/queries";
+import { getProjects, getProjectBySlug, getProjectById } from "@/lib/db/queries";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -14,9 +14,21 @@ export async function GET(request: Request) {
     
     const { searchParams } = new URL(request.url);
     const slug = searchParams.get("slug");
+    const id = searchParams.get("id");
+    
+    if (id) {
+      const project = getProjectById(id);
+      if (!project) {
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
+      return NextResponse.json(project);
+    }
     
     if (slug) {
       const project = getProjectBySlug(slug);
+      if (!project) {
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
       return NextResponse.json(project);
     }
     

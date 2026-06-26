@@ -113,6 +113,14 @@ export default function AdminProjectsPage() {
                       )}
                     </td>
                     <td className="p-4 text-right">
+                      <a
+                        href={`/portfolio/${project.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-white/50 hover:text-white mr-4"
+                      >
+                        View
+                      </a>
                       <Link
                         href={`/admin/projects/${project.id}`}
                         className="text-sm text-amber-400 hover:underline mr-4"

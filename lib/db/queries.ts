@@ -233,6 +233,8 @@ export function getProjectBySlug(slug: string) {
     coverAlt: schema.projects.coverAlt,
     seoTitle: schema.projects.seoTitle,
     seoDescription: schema.projects.seoDescription,
+    categoryId: schema.projects.categoryId,
+    sortOrder: schema.projects.sortOrder,
     categoryName: schema.categories.name,
     categorySlug: schema.categories.slug,
   })
@@ -242,8 +244,69 @@ export function getProjectBySlug(slug: string) {
     .get();
   
   if (!project) return null;
-  
-  // Get gallery
+  const detail = formatProjectDetail(project);
+  if (!detail.coverImage.src) {
+    detail.coverImage.src =
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=85&auto=format&fit=crop";
+  }
+  return detail;
+}
+
+export function getProjectById(id: string | number) {
+  const numericId =
+    typeof id === "string" && id.startsWith("p")
+      ? parseInt(id.slice(1), 10)
+      : typeof id === "string"
+        ? parseInt(id, 10)
+        : id;
+
+  if (!numericId || Number.isNaN(numericId)) return null;
+
+  const project = db.select({
+    id: schema.projects.id,
+    title: schema.projects.title,
+    slug: schema.projects.slug,
+    summary: schema.projects.summary,
+    body: schema.projects.body,
+    date: schema.projects.date,
+    client: schema.projects.client,
+    featured: schema.projects.featured,
+    coverSrc: schema.projects.coverSrc,
+    coverAlt: schema.projects.coverAlt,
+    seoTitle: schema.projects.seoTitle,
+    seoDescription: schema.projects.seoDescription,
+    categoryId: schema.projects.categoryId,
+    sortOrder: schema.projects.sortOrder,
+    categoryName: schema.categories.name,
+    categorySlug: schema.categories.slug,
+  })
+    .from(schema.projects)
+    .leftJoin(schema.categories, eq(schema.projects.categoryId, schema.categories.id))
+    .where(eq(schema.projects.id, numericId))
+    .get();
+
+  if (!project) return null;
+  return formatProjectDetail(project);
+}
+
+function formatProjectDetail(project: {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string | null;
+  body: string | null;
+  date: string | null;
+  client: string | null;
+  featured: boolean | null;
+  coverSrc: string | null;
+  coverAlt: string | null;
+  seoTitle: string | null;
+  seoDescription: string | null;
+  categoryId: number | null;
+  sortOrder: number | null;
+  categoryName: string | null;
+  categorySlug: string | null;
+}) {
   const gallery = db.select()
     .from(schema.projectGallery)
     .where(eq(schema.projectGallery.projectId, project.id))
@@ -255,8 +318,7 @@ export function getProjectBySlug(slug: string) {
       alt: img.alt,
       caption: nullToUndefined(img.caption),
     }));
-  
-  // Get team
+
   const teamJoin = db.select({
     memberId: schema.teamMembers.id,
     name: schema.teamMembers.name,
@@ -267,16 +329,18 @@ export function getProjectBySlug(slug: string) {
     .innerJoin(schema.teamMembers, eq(schema.projectTeam.teamMemberId, schema.teamMembers.id))
     .where(eq(schema.projectTeam.projectId, project.id))
     .all();
-  
+
   const team = teamJoin.map(t => ({
     id: `t${t.memberId}`,
     name: t.name,
     role: t.role || "",
     photo: t.photo || "",
   }));
-  
+
+  const teamMemberIds = teamJoin.map(t => `t${t.memberId}`);
+
   const COVER_PLACEHOLDER = "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=85&auto=format&fit=crop";
-  
+
   return {
     id: `p${project.id}`,
     title: project.title,
@@ -286,8 +350,10 @@ export function getProjectBySlug(slug: string) {
     date: nullToUndefined(project.date),
     client: nullToUndefined(project.client),
     featured: project.featured,
+    sortOrder: project.sortOrder ?? 0,
+    categoryId: project.categoryId,
     coverImage: {
-      src: project.coverSrc || COVER_PLACEHOLDER,
+      src: project.coverSrc || "",
       alt: project.coverAlt || project.title,
     },
     category: {
@@ -300,6 +366,7 @@ export function getProjectBySlug(slug: string) {
     },
     gallery,
     team,
+    teamMemberIds,
   };
 }
 
@@ -352,6 +419,38 @@ export function getGearItems() {
       description: g.description || "",
       image: g.imageSrc || GEAR_PLACEHOLDER,
       featured: g.featured ?? false,
+    }));
+}
+
+// ─────────────────────────────────────────────────────────────
+// Corporate Clients
+// ─────────────────────────────────────────────────────────────
+export function getCorporateClientsSettings() {
+  const result = db.select().from(schema.corporateClientsSettings).get();
+  if (!result) {
+    return {
+      title: "Trusted by Leading Brands",
+      subtitle: "Corporate clients who trust PixelRoot Studio with their visual story.",
+    };
+  }
+  return {
+    title: result.title || "Trusted by Leading Brands",
+    subtitle: nullToUndefined(result.subtitle),
+  };
+}
+
+export function getPublishedCorporateClients() {
+  return db
+    .select()
+    .from(schema.corporateClients)
+    .where(eq(schema.corporateClients.published, true))
+    .orderBy(schema.corporateClients.sortOrder, schema.corporateClients.id)
+    .all()
+    .map((c) => ({
+      id: c.id,
+      name: c.name,
+      logoSrc: c.logoSrc,
+      websiteUrl: nullToUndefined(c.websiteUrl),
     }));
 }
 
@@ -560,6 +659,9 @@ export function getSiteSeo() {
     locale: settings.locale || "en_US",
     twitterHandle: settings.twitterHandle || "",
     keywords: settings.keywords || [],
+    logo: nullToUndefined(settings.logo),
+    favicon: nullToUndefined(settings.favicon),
+    ogImage: nullToUndefined(settings.ogImage),
     organization: {
       name: settings.orgName || settings.siteName,
       email: settings.orgEmail || "",

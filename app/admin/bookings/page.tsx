@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 type Booking = {
   id: number;
+  leadId: number | null;
   packageId: number | null;
   packageName: string | null;
   clientName: string;
@@ -13,6 +15,8 @@ type Booking = {
   eventType: string | null;
   message: string | null;
   status: string;
+  invoiceId: number | null;
+  invoiceNumber: string | null;
   createdAt: string | null;
 };
 
@@ -30,10 +34,19 @@ export default function AdminBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<Booking | null>(null);
+  const [highlightId, setHighlightId] = useState<string | null>(null);
 
   useEffect(() => {
     loadBookings();
+    const params = new URLSearchParams(window.location.search);
+    setHighlightId(params.get("highlight"));
   }, []);
+
+  useEffect(() => {
+    if (!highlightId || bookings.length === 0) return;
+    const match = bookings.find((b) => b.id === parseInt(highlightId));
+    if (match) setSelected(match);
+  }, [highlightId, bookings]);
 
   async function loadBookings() {
     const res = await fetch("/api/admin/bookings");
@@ -69,10 +82,10 @@ export default function AdminBookingsPage() {
     <div className="max-w-5xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Booking Requests</h1>
-        <p className="text-sm text-white/50 mt-1">
-          {bookings.length} total • {pendingCount} pending
-        </p>
+          <h1 className="text-2xl font-bold text-white">Bookings</h1>
+          <p className="text-sm text-white/50 mt-1">
+            Package booking requests — {bookings.length} total • {pendingCount} pending
+          </p>
       </div>
 
       {/* Filter Tabs */}
@@ -109,7 +122,9 @@ export default function AdminBookingsPage() {
               <div
                 key={booking.id}
                 onClick={() => setSelected(booking)}
-                className="flex items-center justify-between px-5 py-4 hover:bg-white/[0.03] cursor-pointer transition-colors"
+                className={`flex items-center justify-between px-5 py-4 hover:bg-white/[0.03] cursor-pointer transition-colors ${
+                  highlightId && booking.id === parseInt(highlightId) ? "bg-amber-500/10" : ""
+                }`}
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -117,10 +132,21 @@ export default function AdminBookingsPage() {
                     <span className={`text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded ${statusColors[booking.status]}`}>
                       {booking.status}
                     </span>
+                    {booking.leadId && (
+                      <span className="text-[9px] font-semibold text-emerald-400/70 uppercase tracking-wider">
+                        from lead
+                      </span>
+                    )}
+                    {booking.invoiceNumber && (
+                      <span className="text-[9px] font-semibold text-amber-400/80 uppercase tracking-wider">
+                        {booking.invoiceNumber}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-white/40">
                     {booking.packageName && <span>{booking.packageName}</span>}
-                    <span>{booking.email}</span>
+                    <span>{booking.phone}</span>
+                    {booking.email && <span>{booking.email}</span>}
                     {booking.eventDate && <span>{booking.eventDate}</span>}
                   </div>
                 </div>
@@ -153,13 +179,15 @@ export default function AdminBookingsPage() {
                   <p className="text-sm text-white mt-0.5">{selected.clientName}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/30">Email</p>
-                  <p className="text-sm text-white mt-0.5">{selected.email}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-white/30">Phone</p>
+                  <a href={`tel:${(selected.phone || "").replace(/\s/g, "")}`} className="text-sm text-amber-400 hover:underline mt-0.5 block">
+                    {selected.phone}
+                  </a>
                 </div>
-                {selected.phone && (
+                {selected.email && (
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-white/30">Phone</p>
-                    <p className="text-sm text-white mt-0.5">{selected.phone}</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-white/30">Email</p>
+                    <p className="text-sm text-white mt-0.5">{selected.email}</p>
                   </div>
                 )}
                 {selected.eventDate && (
@@ -187,6 +215,37 @@ export default function AdminBookingsPage() {
                   <p className="text-[10px] font-semibold uppercase tracking-wider text-white/30 mb-1.5">Message</p>
                   <p className="text-sm text-white/70 bg-white/5 rounded-lg p-3">{selected.message}</p>
                 </div>
+              )}
+
+              {selected.leadId && (
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400/80">Source</p>
+                  <Link
+                    href="/admin/leads"
+                    className="text-xs text-emerald-300 hover:underline mt-1 inline-block"
+                  >
+                    Converted from Lead #{selected.leadId} →
+                  </Link>
+                </div>
+              )}
+
+              {selected.invoiceId ? (
+                <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-400/80">Invoice</p>
+                  <Link
+                    href={`/admin/invoices/${selected.invoiceId}`}
+                    className="text-sm text-amber-300 hover:underline mt-1 inline-block font-mono"
+                  >
+                    {selected.invoiceNumber || `Invoice #${selected.invoiceId}`} →
+                  </Link>
+                </div>
+              ) : (
+                <Link
+                  href={`/admin/invoices/new?fromBooking=${selected.id}`}
+                  className="block w-full text-center px-4 py-2.5 bg-amber-500/10 border border-amber-500/25 text-amber-400 hover:bg-amber-500/20 text-sm font-semibold rounded-lg transition-colors"
+                >
+                  Create Invoice
+                </Link>
               )}
 
               <div>

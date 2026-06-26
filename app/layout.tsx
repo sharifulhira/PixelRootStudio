@@ -21,13 +21,23 @@ const playfair = Playfair_Display({
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteSeo = getSiteSeo();
-  
+  const ogImages = siteSeo.ogImage
+    ? [{ url: siteSeo.ogImage, width: 1200, height: 630, alt: siteSeo.siteName }]
+    : undefined;
+
   return {
     metadataBase: new URL(siteSeo.siteUrl),
     title: siteSeo.title,
     description: siteSeo.description,
     keywords: siteSeo.keywords,
     applicationName: siteSeo.siteName,
+    icons: siteSeo.favicon
+      ? {
+          icon: siteSeo.favicon,
+          shortcut: siteSeo.favicon,
+          apple: siteSeo.favicon,
+        }
+      : undefined,
     alternates: {
       canonical: "/",
     },
@@ -50,6 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: siteSeo.title,
       description: siteSeo.description,
       siteName: siteSeo.siteName,
+      images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
@@ -57,6 +68,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: siteSeo.description,
       creator: siteSeo.twitterHandle,
       site: siteSeo.twitterHandle,
+      images: siteSeo.ogImage ? [siteSeo.ogImage] : undefined,
     },
   };
 }

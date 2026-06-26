@@ -1,6 +1,6 @@
 "use client";
 
-import { getPageTitle } from "./nav-config";
+import { getPageTitle, getPageGroup } from "./nav-config";
 
 type Props = {
   pathname: string;
@@ -10,9 +10,10 @@ type Props = {
 
 export function AdminTopbar({ pathname, onLogout, onMenuToggle }: Props) {
   const pageTitle = getPageTitle(pathname);
+  const pageGroup = getPageGroup(pathname);
 
   return (
-    <header className="sticky top-0 z-20 shrink-0 bg-slate-950/95 backdrop-blur-sm border-b border-white/5">
+    <header className="sticky top-0 z-20 shrink-0 bg-slate-950/95 backdrop-blur-sm border-b border-white/5 print:hidden">
       <div className="flex items-center justify-between h-14 px-4 lg:px-6">
         {/* Mobile menu */}
         <button
@@ -29,6 +30,12 @@ export function AdminTopbar({ pathname, onLogout, onMenuToggle }: Props) {
         {/* Page title / breadcrumb */}
         <div className="flex items-center gap-2 min-w-0">
           <span className="hidden sm:inline text-xs text-white/35">CMS</span>
+          {pageGroup && (
+            <>
+              <span className="hidden sm:inline text-white/20">/</span>
+              <span className="hidden sm:inline text-xs text-white/45">{pageGroup}</span>
+            </>
+          )}
           <span className="hidden sm:inline text-white/20">/</span>
           <h1 className="text-sm font-semibold text-white truncate">{pageTitle}</h1>
         </div>

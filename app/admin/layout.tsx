@@ -31,7 +31,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-dvh bg-slate-950">
+    <div className="min-h-dvh bg-slate-950 print:hidden">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -43,7 +43,7 @@ export default function AdminLayout({
       {/* Sidebar — always fixed, full viewport height */}
       <aside
         style={{ width: SIDEBAR_WIDTH }}
-        className={`fixed inset-y-0 left-0 z-50 bg-slate-900 border-r border-white/5 flex flex-col transform transition-transform duration-200 ease-out ${
+        className={`fixed inset-y-0 left-0 z-50 bg-slate-900 border-r border-white/5 flex flex-col transform transition-transform duration-200 ease-out print:hidden ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
@@ -55,16 +55,16 @@ export default function AdminLayout({
       </aside>
 
       {/* Main area — offset by sidebar width on desktop */}
-      <div
-        className="min-h-dvh flex flex-col lg:ml-[260px]"
-      >
+      <div className="min-h-dvh flex flex-col lg:ml-[260px] print:ml-0">
         <AdminTopbar
           pathname={pathname}
           onLogout={handleLogout}
           onMenuToggle={() => setSidebarOpen((open) => !open)}
         />
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
-          <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full">{children}</div>
+        <main className="flex-1 overflow-y-auto overflow-x-hidden print:overflow-visible">
+          <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto w-full print:p-0 print:max-w-none print:m-0">
+            {children}
+          </div>
         </main>
       </div>
     </div>

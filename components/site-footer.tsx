@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getSiteSeo, getAbout, getSocialSection } from "@/lib/db/queries";
 
 const navLinks = [
@@ -68,9 +69,19 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block group">
-              <h2 className="hero-headline text-xl sm:text-2xl font-bold text-[color:var(--text)] tracking-tight group-hover:text-amber-500 transition-colors">
-                {siteSeo.siteName}
-              </h2>
+              {siteSeo.logo ? (
+                <Image
+                  src={siteSeo.logo}
+                  alt={siteSeo.siteName}
+                  width={160}
+                  height={48}
+                  className="h-8 sm:h-9 w-auto object-contain object-left"
+                />
+              ) : (
+                <h2 className="hero-headline text-xl sm:text-2xl font-bold text-[color:var(--text)] tracking-tight group-hover:text-amber-500 transition-colors">
+                  {siteSeo.siteName}
+                </h2>
+              )}
             </Link>
             {tagline && (
               <p className="mt-3 text-sm text-[color:var(--muted)] leading-relaxed max-w-sm">

@@ -47,11 +47,14 @@ export async function PUT(request: Request) {
         socialLinkedin: data.socialLinkedin,
         socialTitle: data.socialTitle,
         socialSubtitle: data.socialSubtitle,
+        logo: data.logo,
+        favicon: data.favicon,
         ogImage: data.ogImage,
         updatedAt: new Date(),
       })
       .run();
     
+    revalidatePath("/", "layout");
     revalidatePath("/");
     revalidatePath("/about");
     revalidatePath("/contact");

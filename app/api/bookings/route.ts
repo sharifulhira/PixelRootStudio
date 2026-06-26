@@ -7,9 +7,9 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
 
-    if (!data.clientName || !data.email) {
+    if (!data.clientName || !data.phone) {
       return NextResponse.json(
-        { error: "Name and email are required" },
+        { error: "Name and phone number are required" },
         { status: 400 }
       );
     }
@@ -30,8 +30,8 @@ export async function POST(request: Request) {
         packageId: data.packageId || null,
         packageName,
         clientName: data.clientName,
-        email: data.email,
-        phone: data.phone || null,
+        email: data.email?.trim() || "",
+        phone: data.phone,
         eventDate: data.eventDate || null,
         eventType: data.eventType || null,
         message: data.message || null,

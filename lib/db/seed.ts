@@ -68,6 +68,8 @@ async function seed() {
       social_linkedin TEXT,
       social_title TEXT,
       social_subtitle TEXT,
+      logo TEXT,
+      favicon TEXT,
       og_image TEXT,
       updated_at INTEGER
     );
@@ -422,15 +424,28 @@ async function seed() {
 
     CREATE TABLE IF NOT EXISTS bookings (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      lead_id INTEGER REFERENCES leads(id),
       package_id INTEGER REFERENCES packages(id),
       package_name TEXT,
       client_name TEXT NOT NULL,
-      email TEXT NOT NULL,
-      phone TEXT,
+      email TEXT,
+      phone TEXT NOT NULL,
       event_date TEXT,
       event_type TEXT,
       message TEXT,
       status TEXT NOT NULL DEFAULT 'pending',
+      created_at INTEGER,
+      updated_at INTEGER
+    );
+
+    CREATE TABLE IF NOT EXISTS leads (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      email TEXT,
+      service TEXT,
+      message TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'new',
       created_at INTEGER,
       updated_at INTEGER
     );

@@ -29,25 +29,42 @@ const SERVICES = [
 export function ContactContent({ contact }: { contact: ContactInfo }) {
   const [form, setForm] = useState({
     name: "",
+    phone: "",
     email: "",
     service: "",
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const primaryEmail = contact.emails?.[0] || "sharifulhira@gmail.com";
   const phones = contact.phones?.length ? contact.phones : ["+880 1731-722808"];
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const subject = encodeURIComponent(
-      `PixelRoot Studio Inquiry${form.service ? ` — ${form.service}` : ""}`
-    );
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nService: ${form.service || "Not specified"}\n\n${form.message}`
-    );
-    window.location.href = `mailto:${primaryEmail}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setSubmitted(true);
+      setForm({ name: "", phone: "", email: "", service: "", message: "" });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -134,21 +151,30 @@ export function ContactContent({ contact }: { contact: ContactInfo }) {
                 Send a Message
               </h3>
               <p className="text-sm text-[color:var(--muted)] mb-6">
-                Fill in the form and your email client will open with your message ready to send.
+                Fill in the form and we&apos;ll get back to you as soon as possible.
               </p>
 
               {submitted ? (
                 <div className="rounded-xl border border-[color:var(--primary)]/25 bg-[color:var(--primary)]/5 p-6 text-center">
-                  <p className="text-sm font-semibold text-[color:var(--text)] mb-1">Opening your email client…</p>
+                  <p className="text-sm font-semibold text-[color:var(--text)] mb-1">Message sent!</p>
                   <p className="text-xs text-[color:var(--muted)]">
-                    If it didn&apos;t open, email us directly at{" "}
-                    <a href={`mailto:${primaryEmail}`} className="text-[color:var(--primary)] underline underline-offset-2">
-                      {primaryEmail}
-                    </a>
+                    Thank you for reaching out. We&apos;ll review your inquiry and respond soon.
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="mt-4 text-xs text-[color:var(--primary)] underline underline-offset-2"
+                  >
+                    Send another message
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  {error && (
+                    <div className="rounded-xl border border-red-500/25 bg-red-500/5 p-3 text-xs text-red-600 dark:text-red-400">
+                      {error}
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <label className="flex flex-col gap-1.5">
                       <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[color:var(--muted)]">
@@ -165,18 +191,31 @@ export function ContactContent({ contact }: { contact: ContactInfo }) {
                     </label>
                     <label className="flex flex-col gap-1.5">
                       <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[color:var(--muted)]">
-                        Email *
+                        Phone *
                       </span>
                       <input
-                        type="email"
+                        type="tel"
                         required
-                        value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         className="w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--bg)] px-4 py-3 text-sm text-[color:var(--text)] outline-none focus:border-[color:var(--primary)] transition-colors"
-                        placeholder="you@email.com"
+                        placeholder="+880 1XXX-XXXXXX"
                       />
                     </label>
                   </div>
+
+                  <label className="flex flex-col gap-1.5">
+                    <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[color:var(--muted)]">
+                      Email
+                    </span>
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className="w-full rounded-xl border border-[color:var(--border)] bg-[color:var(--bg)] px-4 py-3 text-sm text-[color:var(--text)] outline-none focus:border-[color:var(--primary)] transition-colors"
+                      placeholder="you@email.com (optional)"
+                    />
+                  </label>
 
                   <label className="flex flex-col gap-1.5">
                     <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[color:var(--muted)]">
@@ -210,9 +249,10 @@ export function ContactContent({ contact }: { contact: ContactInfo }) {
 
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full bg-[color:var(--primary)] text-white text-sm font-semibold tracking-wide hover:opacity-90 transition-opacity duration-200 mt-1"
+                    disabled={submitting}
+                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-full bg-[color:var(--primary)] text-white text-sm font-semibold tracking-wide hover:opacity-90 disabled:opacity-60 transition-opacity duration-200 mt-1"
                   >
-                    Send Message
+                    {submitting ? "Sending..." : "Send Message"}
                     <svg viewBox="0 0 16 16" className="w-4 h-4" fill="none" aria-hidden="true">
                       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
