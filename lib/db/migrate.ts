@@ -5,6 +5,7 @@ const columnMigrations: { table: string; column: string; type: string }[] = [
   { table: "site_settings", column: "favicon", type: "TEXT" },
   { table: "site_settings", column: "social_title", type: "TEXT" },
   { table: "site_settings", column: "social_subtitle", type: "TEXT" },
+  { table: "site_settings", column: "social_tiktok", type: "TEXT" },
   { table: "leads", column: "phone", type: "TEXT" },
   { table: "bookings", column: "lead_id", type: "INTEGER" },
   { table: "invoice_settings", column: "signature_image", type: "TEXT" },

@@ -22,6 +22,7 @@ type SeoData = {
     instagram?: string;
     youtube?: string;
     linkedin?: string;
+    tiktok?: string;
   };
 };
 
@@ -37,6 +38,7 @@ export function getHomeJsonLd() {
     siteSeo.social?.instagram,
     siteSeo.social?.youtube,
     siteSeo.social?.linkedin,
+    siteSeo.social?.tiktok,
   ].filter(Boolean);
 
   return [

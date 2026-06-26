@@ -36,6 +36,7 @@ export const siteSettings = sqliteTable("site_settings", {
   socialInstagram: text("social_instagram"),
   socialYoutube: text("social_youtube"),
   socialLinkedin: text("social_linkedin"),
+  socialTiktok: text("social_tiktok"),
   socialTitle: text("social_title"),
   socialSubtitle: text("social_subtitle"),
 

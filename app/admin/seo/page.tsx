@@ -23,6 +23,7 @@ type SiteSettingsData = {
   socialInstagram: string;
   socialYoutube: string;
   socialLinkedin: string;
+  socialTiktok: string;
   socialTitle: string;
   socialSubtitle: string;
 };
@@ -59,6 +60,7 @@ export default function AdminSiteSettingsPage() {
           socialInstagram: raw.socialInstagram || "",
           socialYoutube: raw.socialYoutube || "",
           socialLinkedin: raw.socialLinkedin || "",
+          socialTiktok: raw.socialTiktok || "",
           socialTitle: raw.socialTitle || "",
           socialSubtitle: raw.socialSubtitle || "",
         });
@@ -351,6 +353,16 @@ export default function AdminSiteSettingsPage() {
                 onChange={(e) => setData({ ...data, socialLinkedin: e.target.value })}
                 className={inputClass}
                 placeholder="https://linkedin.com/..."
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-white/40 mb-1">TikTok</label>
+              <input
+                type="url"
+                value={data.socialTiktok}
+                onChange={(e) => setData({ ...data, socialTiktok: e.target.value })}
+                className={inputClass}
+                placeholder="https://tiktok.com/@..."
               />
             </div>
             <div>

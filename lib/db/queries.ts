@@ -465,7 +465,9 @@ function extractHandle(url: string, platform: string): string | undefined {
     if (segments.length === 0) return undefined;
     const last = segments[segments.length - 1];
     if (platform === "youtube" && last.startsWith("@")) return last;
-    if (platform === "twitter" || platform === "instagram") return `@${last.replace("@", "")}`;
+    if (platform === "twitter" || platform === "instagram" || platform === "tiktok") {
+      return `@${last.replace("@", "")}`;
+    }
     return last;
   } catch {
     return undefined;
@@ -508,6 +510,14 @@ export function getSocialSection() {
       label: "LinkedIn",
       url: settings.socialLinkedin,
       handle: extractHandle(settings.socialLinkedin, "linkedin"),
+    });
+  }
+  if (settings.socialTiktok) {
+    links.push({
+      id: "tiktok",
+      label: "TikTok",
+      url: settings.socialTiktok,
+      handle: extractHandle(settings.socialTiktok, "tiktok"),
     });
   }
   if (settings.twitterHandle) {
@@ -673,6 +683,7 @@ export function getSiteSeo() {
       instagram: nullToUndefined(settings.socialInstagram),
       youtube: nullToUndefined(settings.socialYoutube),
       linkedin: nullToUndefined(settings.socialLinkedin),
+      tiktok: nullToUndefined(settings.socialTiktok),
     },
   };
 }

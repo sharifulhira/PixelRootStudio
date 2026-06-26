@@ -42,7 +42,8 @@ function hasSocialLinks(settings: NonNullable<ReturnType<typeof getSiteSettings>
     settings.socialFacebook ||
     settings.socialInstagram ||
     settings.socialYoutube ||
-    settings.socialLinkedin
+    settings.socialLinkedin ||
+    settings.socialTiktok
   );
 }
 

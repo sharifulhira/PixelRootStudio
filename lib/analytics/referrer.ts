@@ -14,6 +14,7 @@ export function categorizeReferrer(referrer: string | null | undefined, siteHost
     if (host.includes("instagram.com")) return "Instagram";
     if (host.includes("youtube.com") || host === "youtu.be") return "YouTube";
     if (host.includes("linkedin.com")) return "LinkedIn";
+    if (host.includes("tiktok.com")) return "TikTok";
     if (host.includes("twitter.com") || host === "x.com" || host === "t.co") return "X (Twitter)";
     if (host.includes("bing.com")) return "Bing";
     if (host.includes("yahoo.")) return "Yahoo";
