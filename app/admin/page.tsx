@@ -169,11 +169,12 @@ const statCards = [
 ] as const;
 
 const groupDescriptions: Record<string, string> = {
-  Business: "Analytics, invoices, leads, bookings, and packages",
-  Homepage: "Sections displayed on the landing page",
-  Portfolio: "Case studies and client work",
-  Pages: "Standalone site pages",
-  Settings: "Site health, SEO, and global config",
+  Homepage: "Sections on the landing page",
+  "About page": "Sections on the About page",
+  Portfolio: "Case studies on /portfolio",
+  Packages: "Pricing on /packages and the homepage preview",
+  Operations: "Leads, bookings, calendar, and invoices",
+  Settings: "Contact details, SEO, and site maintenance",
 };
 
 export default function AdminDashboard() {

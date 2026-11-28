@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getSiteSeo, getAbout, getSocialSection } from "@/lib/db/queries";
+import { getSiteSeo, getAbout, getContactSettings } from "@/lib/db/queries";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -58,10 +58,12 @@ function SocialIcon({ id }: { id: string }) {
 export function SiteFooter() {
   const siteSeo = getSiteSeo();
   const about = getAbout();
-  const social = getSocialSection();
+  const contact = getContactSettings();
 
-  const email = about?.contact?.emails?.[0] || siteSeo.organization?.email;
-  const phone = about?.contact?.phones?.[0] || siteSeo.organization?.telephone;
+  const email = contact.emails[0];
+  const phone = contact.phones[0];
+  const address = contact.address;
+  const socialLinks = contact.social.links;
   const tagline = about?.tagline || siteSeo.description;
   const year = new Date().getFullYear();
 
@@ -155,6 +157,19 @@ export function SiteFooter() {
                   </a>
                 </li>
               )}
+              {address && (
+                <li>
+                  <div className="flex items-start gap-2.5 text-sm text-[color:var(--text)]">
+                    <span className="w-8 h-8 rounded-full bg-[color:var(--bg)] border border-[color:var(--border)] flex items-center justify-center text-[color:var(--muted)] shrink-0">
+                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                        <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="12" cy="10" r="2.2" />
+                      </svg>
+                    </span>
+                    <span className="whitespace-pre-line">{address}</span>
+                  </div>
+                </li>
+              )}
               <li>
                 <Link
                   href="/contact"
@@ -174,9 +189,9 @@ export function SiteFooter() {
             <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[color:var(--muted)] mb-4">
               Follow Us
             </h3>
-            {social?.links.length ? (
+            {socialLinks.length ? (
               <div className="flex flex-wrap gap-2">
-                {social.links.map((link) => (
+                {socialLinks.map((link) => (
                   <a
                     key={link.id}
                     href={link.url}

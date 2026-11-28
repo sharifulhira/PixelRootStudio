@@ -13,14 +13,21 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.65, ease: easeOut, delay },
 });
 
-export function AboutIntro({ aboutData }: { aboutData: any }) {
+export function AboutIntro({
+  aboutData,
+  contact,
+}: {
+  aboutData: any;
+  contact: { phones: string[]; emails: string[] };
+}) {
+  const copy = aboutData.pageCopy;
   return (
     <>
       {/* ── Banner ── */}
       <section className="relative h-[58vh] min-h-[320px] max-h-[520px] flex flex-col overflow-hidden bg-black">
         <Image
           src={aboutData.bannerImage}
-          alt="Photographer at work, PixelRoot Studio"
+          alt={copy.bannerImageAlt || aboutData.name}
           fill
           priority
           quality={90}
@@ -36,12 +43,16 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
           transition={{ duration: 0.7, ease: easeOut, delay: 0.15 }}
           className="relative z-10 mt-auto px-5 pb-10 sm:px-10 lg:px-16 max-w-[1200px] mx-auto w-full"
         >
-          <span className="block text-[11px] font-semibold tracking-[0.22em] uppercase text-white/50 mb-3">
-            About the Studio
-          </span>
-          <h1 className="hero-headline text-[2.6rem] sm:text-[3.5rem] lg:text-[4.5rem] font-bold text-white leading-[1.0] tracking-[-0.025em]">
-            Behind the Lens
-          </h1>
+          {copy.bannerEyebrow && (
+            <span className="block text-[11px] font-semibold tracking-[0.22em] uppercase text-white/50 mb-3">
+              {copy.bannerEyebrow}
+            </span>
+          )}
+          {copy.bannerHeadline && (
+            <h1 className="hero-headline text-[2.6rem] sm:text-[3.5rem] lg:text-[4.5rem] font-bold text-white leading-[1.0] tracking-[-0.025em]">
+              {copy.bannerHeadline}
+            </h1>
+          )}
           <p className="mt-3 text-white/55 text-sm sm:text-base max-w-sm">
             {aboutData.tagline}
           </p>
@@ -65,17 +76,19 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
                   sizes="(max-width: 1024px) 80vw, 380px"
                 />
                 {/* Founder badge */}
+                {copy.founderBadge && (
                 <div className="absolute bottom-4 left-4">
                   <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.16em] uppercase text-white bg-black/55 backdrop-blur-sm border border-[color:var(--primary)]/30 rounded-full px-4 py-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[color:var(--primary)]" />
-                    Founder
+                    {copy.founderBadge}
                   </span>
                 </div>
+                )}
               </div>
 
               {/* Contact chips */}
               <div className="mt-5 flex flex-wrap gap-2">
-                {aboutData.contact?.phones?.map((p: string) => (
+                {contact.phones.map((p: string) => (
                   <a
                     key={p}
                     href={`tel:${p.replace(/\s/g, "")}`}
@@ -87,7 +100,7 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
                     {p}
                   </a>
                 ))}
-                {aboutData.contact?.emails?.slice(0, 1).map((e: string) => (
+                {contact.emails.slice(0, 1).map((e: string) => (
                   <a
                     key={e}
                     href={`mailto:${e}`}
@@ -106,9 +119,11 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
             {/* Bio text */}
             <div>
               <motion.div {...fadeUp(0.08)}>
-                <span className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[color:var(--primary)] mb-3">
-                  The Photographer
-                </span>
+                {copy.bioEyebrow && (
+                  <span className="block text-[11px] font-semibold tracking-[0.2em] uppercase text-[color:var(--primary)] mb-3">
+                    {copy.bioEyebrow}
+                  </span>
+                )}
                 <h2 className="hero-headline text-[1.8rem] sm:text-[2.2rem] font-bold text-[color:var(--text)] leading-tight tracking-[-0.02em] mb-1">
                   {aboutData.name}
                 </h2>
@@ -128,10 +143,13 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
               ))}
 
               {/* Skills */}
+              {aboutData.skills?.length > 0 && (
               <motion.div {...fadeUp(0.32)} className="mt-8">
-                <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[color:var(--muted)] mb-3">
-                  Expertise
-                </p>
+                {copy.skillsLabel && (
+                  <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[color:var(--muted)] mb-3">
+                    {copy.skillsLabel}
+                  </p>
+                )}
                 <div className="flex flex-wrap gap-2">
                   {aboutData.skills?.map((skill: string) => (
                     <span
@@ -143,12 +161,15 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
                   ))}
                 </div>
               </motion.div>
+              )}
 
-              {/* Experience timeline */}
+              {aboutData.experience?.length > 0 && (
               <motion.div {...fadeUp(0.38)} className="mt-10">
-                <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[color:var(--muted)] mb-4">
-                  Professional Journey
-                </p>
+                {copy.journeyLabel && (
+                  <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[color:var(--muted)] mb-4">
+                    {copy.journeyLabel}
+                  </p>
+                )}
                 <div className="flex flex-col gap-3">
                   {aboutData.experience?.map((exp: any) => (
                     <div
@@ -173,12 +194,14 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
                   ))}
                 </div>
               </motion.div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Stats bar ── */}
+      {aboutData.stats?.length > 0 && (
       <section className="py-12 bg-[color:var(--bg)] border-b border-[color:var(--border)]">
         <div className="px-5 sm:px-10 lg:px-16 max-w-[1200px] mx-auto">
           <motion.div
@@ -201,8 +224,9 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
           </motion.div>
         </div>
       </section>
+      )}
 
-      {/* ── Vision ── */}
+      {aboutData.vision && (
       <section className="py-16 sm:py-20 bg-black overflow-hidden relative">
         <div className="absolute inset-0 opacity-10">
           <Image
@@ -216,18 +240,23 @@ export function AboutIntro({ aboutData }: { aboutData: any }) {
         </div>
         <div className="relative z-10 px-5 sm:px-10 lg:px-16 max-w-[900px] mx-auto text-center">
           <motion.div {...fadeUp(0)}>
-            <span className="block text-[11px] font-semibold tracking-[0.22em] uppercase text-[color:var(--primary)]/80 mb-6">
-              My Vision
-            </span>
+            {copy.visionEyebrow && (
+              <span className="block text-[11px] font-semibold tracking-[0.22em] uppercase text-[color:var(--primary)]/80 mb-6">
+                {copy.visionEyebrow}
+              </span>
+            )}
             <blockquote className="hero-headline text-[1.5rem] sm:text-[2rem] lg:text-[2.4rem] font-bold text-white leading-[1.3] tracking-[-0.01em]">
               &ldquo;{aboutData.vision}&rdquo;
             </blockquote>
-            <p className="mt-6 text-white/40 text-sm font-medium">
-              {aboutData.shortName}, Founder of PixelRoot Studio
-            </p>
+            {copy.visionCredit && (
+              <p className="mt-6 text-white/40 text-sm font-medium">
+                {copy.visionCredit}
+              </p>
+            )}
           </motion.div>
         </div>
       </section>
+      )}
     </>
   );
 }

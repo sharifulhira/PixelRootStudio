@@ -25,6 +25,8 @@ export function ensureBaseSchema(sqlite: Database.Database) {
       org_email TEXT,
       org_phone TEXT,
       org_address TEXT,
+      contact_phones TEXT,
+      contact_emails TEXT,
       social_facebook TEXT,
       social_instagram TEXT,
       social_youtube TEXT,
@@ -109,6 +111,7 @@ export function ensureBaseSchema(sqlite: Database.Database) {
       banner_src TEXT,
       contact_phones TEXT,
       contact_emails TEXT,
+      page_copy TEXT,
       updated_at INTEGER
     );
 

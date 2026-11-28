@@ -13,8 +13,9 @@ const fadeUp = (delay = 0) => ({
 });
 
 type ContactInfo = {
-  phones?: string[];
-  emails?: string[];
+  phones: string[];
+  emails: string[];
+  address?: string;
 };
 
 const SERVICES = [
@@ -38,8 +39,8 @@ export function ContactContent({ contact }: { contact: ContactInfo }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const primaryEmail = contact.emails?.[0] || "sharifulhira@gmail.com";
-  const phones = contact.phones?.length ? contact.phones : ["+880 1731-722808"];
+  const phones = contact.phones;
+  const emails = contact.emails;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -105,7 +106,7 @@ export function ContactContent({ contact }: { contact: ContactInfo }) {
                 </a>
               ))}
 
-              {(contact.emails || [primaryEmail]).map((email) => (
+              {emails.map((email) => (
                 <a
                   key={email}
                   href={`mailto:${email}`}
@@ -125,6 +126,23 @@ export function ContactContent({ contact }: { contact: ContactInfo }) {
                   </div>
                 </a>
               ))}
+
+              {contact.address && (
+                <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] p-4 sm:p-5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[color:var(--primary)]/10 text-[color:var(--primary)]">
+                    <svg viewBox="0 0 16 16" className="h-5 w-5" fill="none" aria-hidden="true">
+                      <path d="M8 14s5-4.2 5-7.4A5 5 0 1 0 3 6.6C3 9.8 8 14 8 14z" stroke="currentColor" strokeWidth="0.9" />
+                      <circle cx="8" cy="6.5" r="1.4" stroke="currentColor" strokeWidth="0.9" />
+                    </svg>
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-[color:var(--muted)] mb-0.5">Address</p>
+                    <p className="text-sm sm:text-base font-semibold text-[color:var(--text)] whitespace-pre-line">
+                      {contact.address}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="mt-8">

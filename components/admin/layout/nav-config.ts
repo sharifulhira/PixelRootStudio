@@ -18,56 +18,10 @@ export const dashboardNavItem: NavItem = {
 };
 
 /**
- * Admin sidebar groups — mirrors the public site structure:
- *
- * Business     → Leads (contact) & Bookings (packages) & pricing
- * Homepage     → Sections on the landing page (/)
- * Portfolio    → Case studies & work categories (/portfolio)
- * Pages        → Standalone site pages (/about, /team)
- * Settings     → Global SEO, social, site metadata
+ * Admin sidebar groups follow the public site:
+ * Homepage, About page, Portfolio, Packages, then studio operations and settings.
  */
 export const adminNavGroups: NavGroup[] = [
-  {
-    title: "Business",
-    items: [
-      {
-        href: "/admin/analytics",
-        label: "Analytics",
-        icon: "analytics",
-        description: "Visitors, pages & traffic sources",
-      },
-      {
-        href: "/admin/leads",
-        label: "Leads",
-        icon: "leads",
-        description: "Contact form inquiries",
-      },
-      {
-        href: "/admin/booking-calendar",
-        label: "Booking Calendar",
-        icon: "calendar",
-        description: "Schedule view with filters",
-      },
-      {
-        href: "/admin/invoices",
-        label: "Invoices",
-        icon: "invoices",
-        description: "Billing & light accounting",
-      },
-      {
-        href: "/admin/bookings",
-        label: "Bookings",
-        icon: "bookings",
-        description: "Package booking requests",
-      },
-      {
-        href: "/admin/packages",
-        label: "Packages",
-        icon: "packages",
-        description: "Pricing & service packages",
-      },
-    ],
-  },
   {
     title: "Homepage",
     items: [
@@ -75,31 +29,60 @@ export const adminNavGroups: NavGroup[] = [
         href: "/admin/hero",
         label: "Hero & Video",
         icon: "hero",
-        description: "Banner, headline, video highlight",
+        description: "Top banner on the homepage",
       },
       {
         href: "/admin/categories",
         label: "Categories",
         icon: "categories",
-        description: "Explore-by-category slider",
+        description: "Category slider on the homepage",
       },
       {
         href: "/admin/clients",
         label: "Corporate Clients",
         icon: "clients",
-        description: "Homepage logo marquee",
+        description: "Logo marquee on the homepage",
       },
       {
         href: "/admin/gallery",
         label: "Gallery Highlights",
         icon: "gallery",
-        description: "Featured work on homepage",
+        description: "Featured work on the homepage",
       },
       {
         href: "/admin/gear",
         label: "Gear Showcase",
         icon: "gear",
-        description: "Equipment section",
+        description: "Equipment section on the homepage",
+      },
+    ],
+  },
+  {
+    title: "About page",
+    items: [
+      {
+        href: "/admin/about/founder",
+        label: "Founder",
+        icon: "about",
+        description: "Banner and portrait at the top of /about",
+      },
+      {
+        href: "/admin/about/experience",
+        label: "Experience",
+        icon: "experience",
+        description: "Bio, expertise, and journey on /about",
+      },
+      {
+        href: "/admin/about/team",
+        label: "Team",
+        icon: "team",
+        description: "People grid on /about and the Team page",
+      },
+      {
+        href: "/admin/about/details",
+        label: "Other details",
+        icon: "details",
+        description: "Stats, vision, closing band, and SEO",
       },
     ],
   },
@@ -110,54 +93,88 @@ export const adminNavGroups: NavGroup[] = [
         href: "/admin/projects",
         label: "Projects",
         icon: "projects",
-        description: "Portfolio case studies",
+        description: "Case studies on /portfolio",
       },
     ],
   },
   {
-    title: "Pages",
+    title: "Packages",
     items: [
       {
-        href: "/admin/about",
-        label: "About",
-        icon: "about",
-        description: "Photographer bio & contact",
+        href: "/admin/packages",
+        label: "Packages",
+        icon: "packages",
+        description: "Pricing on /packages and the homepage preview",
+      },
+    ],
+  },
+  {
+    title: "Operations",
+    items: [
+      {
+        href: "/admin/analytics",
+        label: "Analytics",
+        icon: "analytics",
+        description: "Visitors, pages, and traffic",
       },
       {
-        href: "/admin/team",
-        label: "Team",
-        icon: "team",
-        description: "Team members page",
+        href: "/admin/leads",
+        label: "Leads",
+        icon: "leads",
+        description: "Messages from the contact form",
+      },
+      {
+        href: "/admin/booking-calendar",
+        label: "Booking Calendar",
+        icon: "calendar",
+        description: "Schedule of bookings",
+      },
+      {
+        href: "/admin/bookings",
+        label: "Bookings",
+        icon: "bookings",
+        description: "Package booking requests",
+      },
+      {
+        href: "/admin/invoices",
+        label: "Invoices",
+        icon: "invoices",
+        description: "Billing and payments",
       },
     ],
   },
   {
     title: "Settings",
     items: [
-      
+      {
+        href: "/admin/contact",
+        label: "Contact Settings",
+        icon: "contact",
+        description: "Footer, contact page, and social links",
+      },
       {
         href: "/admin/performance",
         label: "Site Health",
         icon: "performance",
-        description: "SEO & performance audit",
+        description: "SEO and performance audit",
       },
       {
         href: "/admin/seo",
         label: "Site Settings",
         icon: "seo",
-        description: "Logo, favicon, SEO, social meta",
+        description: "Site name, logo, favicon, and SEO",
       },
       {
         href: "/admin/tags",
         label: "SEO & Tags",
         icon: "tags",
-        description: "Analytics, Search Console, ads pixels",
+        description: "Analytics, Search Console, and ad pixels",
       },
       {
         href: "/admin/backup",
         label: "Backup & Restore",
         icon: "backup",
-        description: "Database SQL export and image backup",
+        description: "Database and image backup",
       },
     ],
   },

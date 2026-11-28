@@ -10,22 +10,11 @@ type SiteSettingsData = {
   metaTitle: string;
   metaDescription: string;
   locale: string;
-  twitterHandle: string;
   keywords: string[];
   logo: string;
   favicon: string;
   ogImage: string;
   orgName: string;
-  orgEmail: string;
-  orgPhone: string;
-  orgAddress: string;
-  socialFacebook: string;
-  socialInstagram: string;
-  socialYoutube: string;
-  socialLinkedin: string;
-  socialTiktok: string;
-  socialTitle: string;
-  socialSubtitle: string;
 };
 
 const inputClass =
@@ -47,22 +36,11 @@ export default function AdminSiteSettingsPage() {
           metaTitle: raw.metaTitle || "",
           metaDescription: raw.metaDescription || "",
           locale: raw.locale || "en_US",
-          twitterHandle: raw.twitterHandle || "",
           keywords: raw.keywords || [],
           logo: raw.logo || "",
           favicon: raw.favicon || "",
           ogImage: raw.ogImage || "",
           orgName: raw.orgName || "",
-          orgEmail: raw.orgEmail || "",
-          orgPhone: raw.orgPhone || "",
-          orgAddress: raw.orgAddress || "",
-          socialFacebook: raw.socialFacebook || "",
-          socialInstagram: raw.socialInstagram || "",
-          socialYoutube: raw.socialYoutube || "",
-          socialLinkedin: raw.socialLinkedin || "",
-          socialTiktok: raw.socialTiktok || "",
-          socialTitle: raw.socialTitle || "",
-          socialSubtitle: raw.socialSubtitle || "",
         });
         setLoading(false);
       });
@@ -287,140 +265,22 @@ export default function AdminSiteSettingsPage() {
           )}
         </div>
 
-        {/* Social Media */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-4">
-          <div>
-            <h2 className="text-sm font-semibold text-white">Social Media</h2>
-            <p className="text-xs text-white/40 mt-1">Links shown in footer and homepage social section</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Section Title</label>
-              <input
-                type="text"
-                value={data.socialTitle}
-                onChange={(e) => setData({ ...data, socialTitle: e.target.value })}
-                className={inputClass}
-                placeholder="Follow Our Journey"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Section Subtitle</label>
-              <input
-                type="text"
-                value={data.socialSubtitle}
-                onChange={(e) => setData({ ...data, socialSubtitle: e.target.value })}
-                className={inputClass}
-                placeholder="Stay connected for behind-the-scenes..."
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Facebook</label>
-              <input
-                type="url"
-                value={data.socialFacebook}
-                onChange={(e) => setData({ ...data, socialFacebook: e.target.value })}
-                className={inputClass}
-                placeholder="https://facebook.com/..."
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Instagram</label>
-              <input
-                type="url"
-                value={data.socialInstagram}
-                onChange={(e) => setData({ ...data, socialInstagram: e.target.value })}
-                className={inputClass}
-                placeholder="https://instagram.com/..."
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">YouTube</label>
-              <input
-                type="url"
-                value={data.socialYoutube}
-                onChange={(e) => setData({ ...data, socialYoutube: e.target.value })}
-                className={inputClass}
-                placeholder="https://youtube.com/..."
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">LinkedIn</label>
-              <input
-                type="url"
-                value={data.socialLinkedin}
-                onChange={(e) => setData({ ...data, socialLinkedin: e.target.value })}
-                className={inputClass}
-                placeholder="https://linkedin.com/..."
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">TikTok</label>
-              <input
-                type="url"
-                value={data.socialTiktok}
-                onChange={(e) => setData({ ...data, socialTiktok: e.target.value })}
-                className={inputClass}
-                placeholder="https://tiktok.com/@..."
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">X (Twitter) Handle</label>
-              <input
-                type="text"
-                value={data.twitterHandle}
-                onChange={(e) => setData({ ...data, twitterHandle: e.target.value })}
-                className={inputClass}
-                placeholder="@pixelrootstudio"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Organization */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-4">
           <div>
             <h2 className="text-sm font-semibold text-white">Organization</h2>
-            <p className="text-xs text-white/40 mt-1">Business details for contact and structured data</p>
+            <p className="text-xs text-white/40 mt-1">
+              Business name used in structured data. Phone, email, and address live in Contact Settings.
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Organization Name</label>
-              <input
-                type="text"
-                value={data.orgName}
-                onChange={(e) => setData({ ...data, orgName: e.target.value })}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Email</label>
-              <input
-                type="email"
-                value={data.orgEmail}
-                onChange={(e) => setData({ ...data, orgEmail: e.target.value })}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Phone</label>
-              <input
-                type="text"
-                value={data.orgPhone}
-                onChange={(e) => setData({ ...data, orgPhone: e.target.value })}
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-white/40 mb-1">Address</label>
-              <input
-                type="text"
-                value={data.orgAddress}
-                onChange={(e) => setData({ ...data, orgAddress: e.target.value })}
-                className={inputClass}
-              />
-            </div>
+          <div>
+            <label className="block text-xs text-white/40 mb-1">Organization Name</label>
+            <input
+              type="text"
+              value={data.orgName}
+              onChange={(e) => setData({ ...data, orgName: e.target.value })}
+              className={inputClass}
+            />
           </div>
         </div>
       </div>

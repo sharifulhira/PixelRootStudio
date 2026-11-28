@@ -30,7 +30,9 @@ export const siteSettings = sqliteTable("site_settings", {
   orgEmail: text("org_email"),
   orgPhone: text("org_phone"),
   orgAddress: text("org_address"),
-  
+  contactPhones: text("contact_phones"), // JSON array — source of truth
+  contactEmails: text("contact_emails"), // JSON array — source of truth
+
   // Social links
   socialFacebook: text("social_facebook"),
   socialInstagram: text("social_instagram"),
@@ -133,6 +135,7 @@ export const about = sqliteTable("about", {
   bannerSrc: text("banner_src"),
   contactPhones: text("contact_phones"), // JSON array
   contactEmails: text("contact_emails"), // JSON array
+  pageCopy: text("page_copy"), // JSON: headings, CTA, SEO, team-page copy
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
 });
 

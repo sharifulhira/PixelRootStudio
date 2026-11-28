@@ -175,8 +175,8 @@ export function runSiteHealthAudit(): SiteHealthReport {
     message:
       settings?.orgEmail && settings?.orgName
         ? "Organization details set for structured data"
-        : "Add organization name and email for JSON-LD",
-    fixHref: "/admin/seo",
+        : "Add organization name in Site Settings and email in Contact Settings",
+    fixHref: "/admin/contact",
     weight: 5,
   });
 
@@ -189,7 +189,7 @@ export function runSiteHealthAudit(): SiteHealthReport {
       settings && hasSocialLinks(settings)
         ? "Social profiles linked"
         : "Add at least one social profile link",
-    fixHref: "/admin/seo",
+    fixHref: "/admin/contact",
     weight: 4,
   });
 

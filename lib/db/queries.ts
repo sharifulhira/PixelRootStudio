@@ -1,6 +1,7 @@
 import { db } from "./index";
 import { eq, desc } from "drizzle-orm";
 import * as schema from "./schema";
+import { mergeAboutPageCopy } from "../about/page-copy";
 
 // ─────────────────────────────────────────────────────────────
 // Site Settings
@@ -147,10 +148,7 @@ export function getAbout() {
     experience: result.experience ? JSON.parse(result.experience) : [],
     photo: result.photoSrc || PHOTO_PLACEHOLDER,
     bannerImage: result.bannerSrc || BANNER_PLACEHOLDER,
-    contact: {
-      phones: result.contactPhones ? JSON.parse(result.contactPhones) : [],
-      emails: result.contactEmails ? JSON.parse(result.contactEmails) : [],
-    },
+    pageCopy: mergeAboutPageCopy(result.pageCopy, result.shortName),
   };
 }
 
@@ -171,6 +169,7 @@ export function getTeamMembers() {
       bio: member.bio || "",
       photo: member.photoSrc || PHOTO_PLACEHOLDER,
       isFounder: member.isFounder ?? false,
+      sortOrder: member.sortOrder ?? 0,
     }));
 }
 
@@ -474,11 +473,21 @@ function extractHandle(url: string, platform: string): string | undefined {
   }
 }
 
-export function getSocialSection() {
-  const settings = getSiteSettings();
-  if (!settings) return null;
+function parseStringList(value: string | null | undefined): string[] {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((item) => String(item).trim()).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
 
-  const links: { id: string; label: string; url: string; handle?: string }[] = [];
+type SocialLink = { id: string; label: string; url: string; handle?: string };
+
+function buildSocialLinks(settings: NonNullable<ReturnType<typeof getSiteSettings>>): SocialLink[] {
+  const links: SocialLink[] = [];
 
   if (settings.socialInstagram) {
     links.push({
@@ -530,6 +539,14 @@ export function getSocialSection() {
     });
   }
 
+  return links;
+}
+
+export function getSocialSection() {
+  const settings = getSiteSettings();
+  if (!settings) return null;
+
+  const links = buildSocialLinks(settings);
   if (links.length === 0) return null;
 
   return {
@@ -538,6 +555,25 @@ export function getSocialSection() {
       settings.socialSubtitle ||
       "Stay connected for behind-the-scenes content, latest work, and creative inspiration.",
     links,
+  };
+}
+
+export function getContactSettings() {
+  const settings = getSiteSettings();
+  const phones = settings ? parseStringList(settings.contactPhones) : [];
+  const emails = settings ? parseStringList(settings.contactEmails) : [];
+
+  return {
+    phones: phones.length ? phones : settings?.orgPhone ? [settings.orgPhone] : [],
+    emails: emails.length ? emails : settings?.orgEmail ? [settings.orgEmail] : [],
+    address: settings?.orgAddress?.trim() || undefined,
+    social: {
+      title: settings?.socialTitle || "Follow Our Journey",
+      subtitle:
+        settings?.socialSubtitle ||
+        "Stay connected for behind-the-scenes content, latest work, and creative inspiration.",
+      links: settings ? buildSocialLinks(settings) : [],
+    },
   };
 }
 

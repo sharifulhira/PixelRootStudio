@@ -5,6 +5,7 @@ import * as schema from "./schema";
 import { runMigrations } from "./migrate";
 import path from "path";
 import fs from "fs";
+import { defaultAboutPageCopy } from "../about/page-copy";
 
 // Data imports
 import heroData from "../../data/hero.json";
@@ -76,8 +77,10 @@ async function seed() {
     twitterHandle: seoData.twitterHandle,
     keywords: JSON.stringify(seoData.keywords),
     orgName: seoData.organization.name,
-    orgEmail: seoData.organization.email,
-    orgPhone: seoData.organization.telephone,
+    orgEmail: aboutData.contact.emails[0] || seoData.organization.email,
+    orgPhone: aboutData.contact.phones[0] || seoData.organization.telephone,
+    contactPhones: JSON.stringify(aboutData.contact.phones || []),
+    contactEmails: JSON.stringify(aboutData.contact.emails || []),
     updatedAt: new Date(),
   }).run();
   
@@ -163,6 +166,10 @@ async function seed() {
     bannerSrc: aboutData.bannerImage,
     contactPhones: JSON.stringify(aboutData.contact.phones),
     contactEmails: JSON.stringify(aboutData.contact.emails),
+    pageCopy: JSON.stringify({
+      ...defaultAboutPageCopy,
+      visionCredit: `${aboutData.shortName}, Founder of PixelRoot Studio`,
+    }),
     updatedAt: new Date(),
   }).run();
   

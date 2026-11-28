@@ -29,6 +29,9 @@ export async function POST(request: Request) {
     
     const data = await request.json();
     
+    const existing = db.select().from(teamMembers).all();
+    const nextOrder = existing.reduce((max, member) => Math.max(max, member.sortOrder ?? 0), -1) + 1;
+
     const result = db.insert(teamMembers)
       .values({
         name: data.name,
@@ -36,13 +39,14 @@ export async function POST(request: Request) {
         bio: data.bio,
         photoSrc: data.photo,
         isFounder: data.isFounder ?? false,
-        sortOrder: data.sortOrder ?? 0,
+        sortOrder: typeof data.sortOrder === "number" ? data.sortOrder : nextOrder,
         createdAt: new Date(),
       })
       .returning()
       .get();
     
     revalidatePath("/about");
+    revalidatePath("/team");
     
     return NextResponse.json(result);
   } catch (error) {
@@ -82,6 +86,7 @@ export async function PUT(request: Request) {
       .run();
     
     revalidatePath("/about");
+    revalidatePath("/team");
     
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -110,6 +115,7 @@ export async function DELETE(request: Request) {
     db.delete(teamMembers).where(eq(teamMembers.id, numericId)).run();
     
     revalidatePath("/about");
+    revalidatePath("/team");
     
     return NextResponse.json({ success: true });
   } catch (error) {
